@@ -1,0 +1,3 @@
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/share/knob_robot_control/cmake/knob_robot_controlConfig.cmake
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/share/knob_robot_control/cmake/knob_robot_controlConfig-version.cmake
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/lib/pkgconfig/knob_robot_control.pc
