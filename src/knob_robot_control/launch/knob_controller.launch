@@ -1,0 +1,4 @@
+<launch>
+    <!-- Start the ROS node -->
+    <node name="robot_controller" pkg="knob_robot_control" type="knob_controller.py" output="screen"/>
+</launch>
