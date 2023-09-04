@@ -1,0 +1,12 @@
+<launch>
+
+	<!-- init frames -->
+	<include file="$(find fortiss_lwr_launch)/launch/includes/frames.launch"/>
+
+	<!-- start the robot-->
+	<include file="$(find fortiss_lwr_launch)/launch/includes/robot.launch">
+		<arg name="use_lwr_sim" value="false"/>
+		<arg name="lwr_powered" value="true"/>
+	</include>
+
+</launch>

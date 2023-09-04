@@ -1,0 +1,25 @@
+<launch>
+	<arg name="load_moveit" default="true"/>
+
+	<!-- start the robot-->
+	<include file="$(find fortiss_lwr_launch)/launch/includes/robot.launch">
+		<arg name="use_lwr_sim" value="true"/>
+		<arg name="lwr_powered" value="false"/>
+	</include>	
+
+    <!-- load moveit configuration -->
+	<group if="$(arg load_moveit)">
+		<include file="$(find single_lwr_moveit)/launch/move_group.launch">
+			<arg name="allow_trajectory_execution" value="true"/>  
+			<arg name="fake_execution" value="false"/>
+			<arg name="info" value="true"/>
+			<arg name="debug" value="false"/>
+		</include>
+
+		<!-- run Rviz and load the default config to see the state of the move_group node -->
+		<include file="$(find single_lwr_moveit)/launch/moveit_rviz.launch">
+			<arg name="config" value="true"/>
+			<arg name="debug" value="false"/>
+		</include>
+	</group>
+</launch>

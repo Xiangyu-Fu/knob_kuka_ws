@@ -1,0 +1,7 @@
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/share/control_core/cmake/control_coreConfig.cmake
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/share/control_core/cmake/control_coreConfig-version.cmake
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/lib/libcontrol_core.so
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/lib/pkgconfig/control_core.pc
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/lib/control_core/polynomial
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/lib/control_core/geometry
+Symlinking /home/fu/workspaces/knob_kuka_ws/devel/lib/control_core/spline

@@ -1,0 +1,10 @@
+#goal definition
+control_core_msgs/VectorStamped joint_goal
+float32 period                                      # execution time
+float32 timeout                                     # time after action considered failure
+---
+#result definition
+control_core_msgs/VectorStamped joint_final         # final pose
+---
+#feedback
+control_core_msgs/JointStateStamped jointstate      # current pose    

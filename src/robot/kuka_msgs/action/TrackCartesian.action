@@ -1,0 +1,8 @@
+#goal definition
+control_core_msgs/CartesianStateTrajectory trajectory      # goal pose endeffector should reach
+---
+#result definition
+geometry_msgs/PoseStamped final_pose                    # final pose
+---
+#feedback
+control_core_msgs/CartesianStateStamped cartesian_state # current pose

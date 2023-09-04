@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="single_lwr_robot">
+
+	<!-- Include all models -->
+	<xacro:include filename="$(find lwr_description)/model/kuka_lwr.urdf.xacro"/>
+
+  <!-- world reference link -->
+  <link name="world"/>
+
+  <gazebo reference="world">
+    <static>true</static>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+	<!-- add a mounting frame -->
+  <joint name="world_mount_joint" type="fixed">
+    <parent link="world"/>
+    <child link="mount"/>
+  </joint>
+
+	<!-- mount the robot on a box -->
+	<link name="mount">
+		<inertial>
+			<mass value="5.0"/>
+			<origin rpy="0 0 0" xyz="0 0 0"/>
+			<inertia ixx="0.01"
+             iyy="0.01"
+             izz="0.01"
+             ixy="0" iyz="0" ixz="0"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0.40" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.5 0.8 0.8"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0.40" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.5 0.8 0.8"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<gazebo reference="mount">
+		<static>true</static>>
+	</gazebo>
+
+	<!-- add the robot to the mount -->
+	<xacro:kuka_lwr parent="mount" name="lwr">
+		<origin xyz="0.0 0.0 0.8" rpy="0.0 0.0 0.0"/>
+	</xacro:kuka_lwr>
+	
+</robot>

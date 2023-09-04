@@ -1,0 +1,10 @@
+#goal definition
+geometry_msgs/PoseStamped goal_pose                     # goal pose endeffector should reach
+float32 period                                          # execution time
+float32 timeout                                         # time after action considered failure
+---
+#result definition
+geometry_msgs/PoseStamped final_pose                    # final pose
+---
+#feedback
+control_core_msgs/CartesianStateStamped cartesian_state # current pose

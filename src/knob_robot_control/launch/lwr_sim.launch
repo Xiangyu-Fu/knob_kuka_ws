@@ -1,0 +1,7 @@
+<launch>
+    <!-- Start the move_group node -->
+
+
+    <!-- Start the lwr_controller.py script -->
+    <node name="lwr_controller" pkg="knob_robot_control" type="lwr_controller.py" output="screen" />
+</launch>

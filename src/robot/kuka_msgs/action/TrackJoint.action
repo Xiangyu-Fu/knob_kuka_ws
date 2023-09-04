@@ -1,0 +1,8 @@
+#goal definition
+control_core_msgs/JointStateTrajectory trajectory       # goal pose endeffector should reach
+---
+#result definition
+control_core_msgs/VectorStamped final_pose              # final pose
+---
+#feedback
+control_core_msgs/JointStateStamped joint_state         # current pose
