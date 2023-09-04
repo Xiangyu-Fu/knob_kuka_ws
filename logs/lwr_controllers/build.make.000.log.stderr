@@ -1,0 +1,18 @@
+In file included from [01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/backstepping_controller.h:4[m[K,
+                 from [01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/src/backstepping_controller.cpp:7[m[K:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/PIDKinematicChainControllerBase.h:[m[K In member function ‘[01m[Kbool controller_interface::PIDKinematicChainControllerBase<JI>::init(JI*, ros::NodeHandle&) [with JI = hardware_interface::EffortJointInterface][m[K’:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/PIDKinematicChainControllerBase.h:45:5:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+   45 |     [01;35m[K}[m[K
+      |     [01;35m[K^[m[K
+In file included from [01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/dynamic_sliding_mode_controller_task_space.h:4[m[K,
+                 from [01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/src/dynamic_sliding_mode_controller_task_space.cpp:2[m[K:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/PIDKinematicChainControllerBase.h:[m[K In member function ‘[01m[Kbool controller_interface::PIDKinematicChainControllerBase<JI>::init(JI*, ros::NodeHandle&) [with JI = hardware_interface::EffortJointInterface][m[K’:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/PIDKinematicChainControllerBase.h:45:5:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+   45 |     [01;35m[K}[m[K
+      |     [01;35m[K^[m[K
+In file included from [01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/one_task_inverse_dynamics_jl.h:4[m[K,
+                 from [01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/src/one_task_inverse_dynamics_jl.cpp:1[m[K:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/PIDKinematicChainControllerBase.h:[m[K In member function ‘[01m[Kbool controller_interface::PIDKinematicChainControllerBase<JI>::init(JI*, ros::NodeHandle&) [with JI = hardware_interface::EffortJointInterface][m[K’:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_controllers/include/lwr_controllers/PIDKinematicChainControllerBase.h:45:5:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+   45 |     [01;35m[K}[m[K
+      |     [01;35m[K^[m[K

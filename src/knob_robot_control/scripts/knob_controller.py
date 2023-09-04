@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Author: Xiangyu Fu
+# Date: 2023-09-01
+# Description: This script is used to control the robot arm through the robot movement interface.
+
 import rospy
 from robot_movement_interface.msg import Command, CommandList
 from robot_movement_interface.msg import Result

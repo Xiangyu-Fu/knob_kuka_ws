@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # Author: Xiangyu Fu
 # Date: 2023-09-01
-# Description: This script is used to control the robot arm to move to a specific pose.
+# Description: This script is used to control the robot arm through MoveIt! in the simulation environment.
+
 import sys
 import rospy
 import moveit_commander

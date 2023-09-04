@@ -15,11 +15,6 @@
 			<arg name="info" value="true"/>
 			<arg name="debug" value="false"/>
 		</include>
-
-		<!-- run Rviz and load the default config to see the state of the move_group node -->
-		<include file="$(find single_lwr_moveit)/launch/moveit_rviz.launch">
-			<arg name="config" value="true"/>
-			<arg name="debug" value="false"/>
-		</include>
 	</group>
+	
 </launch>

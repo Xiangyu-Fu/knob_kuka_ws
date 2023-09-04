@@ -1,0 +1,2 @@
+robot/kuka-lwr/kuka_lwr
+/home/fu/workspaces/knob_kuka_ws/devel/.private/kuka_lwr/cmake.lock /home/fu/workspaces/knob_kuka_ws/devel/./cmake.lock
