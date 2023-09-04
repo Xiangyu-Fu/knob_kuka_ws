@@ -13,6 +13,9 @@ import copy
 from moveit_msgs.msg import PlanningScene
 from visualization_msgs.msg import Marker
 import numpy as np
+from sensor_msgs.msg import JointState
+from std_msgs.msg import String, Int32, Float32
+
 
 try:
     from math import pi, tau, dist, fabs, cos
@@ -21,8 +24,8 @@ except:  # For Python 2 compatibility
 
     tau = 2.0 * pi
 
-    def dist(p, q):
-        return sqrt(sum((p_i - q_i) ** 2.0 for p_i, q_i in zip(p, q)))
+def dist(p, q):
+    return sqrt(sum((p_i - q_i) ** 2.0 for p_i, q_i in zip(p, q)))
     
 from moveit_commander.conversions import pose_to_list
 
@@ -56,53 +59,60 @@ def all_close(goal, actual, tolerance):
     return True
 
 
-class MoveGroupPythonInterfaceTutorial:
+class KnobLwrControl:
     def __init__(self):
-        super(MoveGroupPythonInterfaceTutorial, self).__init__()
+        super(KnobLwrControl, self).__init__()
 
+        rospy.init_node("lwr_controller", anonymous=True)
+
+        # Configurations for the MoveIt! interface
         moveit_commander.roscpp_initialize(sys.argv)
-        rospy.init_node("move_group_python_interface_tutorial", anonymous=True)
-
         robot = moveit_commander.RobotCommander()
-
         scene = moveit_commander.PlanningSceneInterface()
         planning_scene = PlanningScene()
         planning_scene.is_diff = True
         
-        # create a move group
         group_name = "full_lwr"
         self.move_group = moveit_commander.MoveGroupCommander(group_name)
 
-        # Attach a small box to the robot arm
-        box_pose = geometry_msgs.msg.PoseStamped()
-        box_pose.header.frame_id = robot.get_planning_frame()
-        box_pose.pose.position.x = 0.5
-        box_pose.pose.position.y = 0.0
-        box_pose.pose.position.z = 0.5
-        box_pose.pose.orientation.w = 1.0
+        # define the subscibers
+        self.knob_pos_sub = rospy.Subscriber("/knob_position", Int32, self.knob_position_callback)
+        self.knob_force_sub = rospy.Subscriber("/knob_force", Float32, self.knob_force_callback)
+        self.knob_current_pos = None
+        self.knob_current_force = None
 
-        box_name = "box"
-        # scene.add_box(box_name, box_pose, size=(0.1, 0.1, 0.1))
-
-        self.go_to_joint_state()
+        # get the home pose
         self.home_pose = self.move_group.get_current_pose().pose
 
         while not rospy.is_shutdown():
-            # start pose
-            plan, fraction = self.plan_cartesian_path(euler_angle = 20)
-            self.execute_plan(plan)
+            # # start pose
+            # plan, fraction = self.plan_cartesian_path(euler_angle = 20)
+            # self.execute_plan(plan)
 
-            # end pose
-            plan, fraction = self.plan_cartesian_path(x = -0.2, z = -0.1, euler_angle = -40)
-            self.execute_plan(plan)
+            # # end pose
+            # plan, fraction = self.plan_cartesian_path(x = -0.2, z = -0.1, euler_angle = -40)
+            # self.execute_plan(plan)
         
-            rospy.sleep(1)  # Let ROS do some housekeeping.
+            # rospy.sleep(1)  # Let ROS do some housekeeping.
+
+            # get the tcp pose
+            plan, fraction = self.plan_cartesian_path()
+            self.execute_plan(plan)
+            # rospy.sleep(0.1)
 
         moveit_commander.roscpp_shutdown()
         moveit_commander.os._exit(0)
 
+    def knob_position_callback(self, data) -> None:
+        self.knob_current_pos = data.data   
 
-    def plan_cartesian_path(self, x = 0.2, z = 0, euler_angle = 0):
+
+
+    def knob_force_callback(self, data) -> None:
+        self.knob_current_force = data.data
+
+
+    def plan_cartesian_path(self) -> tuple:
         """
         Plans a Cartesian path in 3-D space.
         args:
@@ -114,35 +124,24 @@ class MoveGroupPythonInterfaceTutorial:
 
         waypoints = []
 
-        euler_angles = tf.transformations.euler_from_quaternion(
-            [self.home_pose.orientation.w, self.home_pose.orientation.x, self.home_pose.orientation.y, self.home_pose.orientation.z], axes='sxyz'
-        )
-
-        # Rotate by 45 degrees around the y-axis
-        rotation_angle = np.radians(euler_angle)  # Convert 45 degrees to radians
-        rotation_axis = np.array([0, 1, 0])  # Y-axis
-        new_euler_angles = euler_angles + rotation_angle * rotation_axis
-
-        # Convert Euler angles back to quaternion
-        new_quaternion = tf.transformations.quaternion_from_euler(
-            new_euler_angles[0], new_euler_angles[1], new_euler_angles[2], axes='sxyz'
-        )
-
         # start with the current pose
-        wpose = move_group.get_current_pose().pose
-        wpose.position.x = self.home_pose.position.x + x  
-        wpose.position.z = self.home_pose.position.z + z 
-        wpose.orientation.w = new_quaternion[0]
-        wpose.orientation.x = new_quaternion[1]
-        wpose.orientation.y = new_quaternion[2]
-        wpose.orientation.z = new_quaternion[3]
-        waypoints.append(copy.deepcopy(wpose))
+        if self.knob_current_pos is not None:
+            wpose = move_group.get_current_pose().pose
+            wpose.position.x = self.home_pose.position.x + 0.02 * self.knob_current_pos
+            wpose.position.y = self.home_pose.position.y
+            wpose.position.z = self.home_pose.position.z 
+            wpose.orientation.w = wpose.orientation.w
+            wpose.orientation.x = wpose.orientation.x
+            wpose.orientation.y = wpose.orientation.y
+            wpose.orientation.z = wpose.orientation.z
+            waypoints.append(copy.deepcopy(wpose))
 
         (plan, fraction) = move_group.compute_cartesian_path(
             waypoints, 0.01, 0.0  # waypoints to follow  # eef_step
         )  # jump_threshold
 
         return plan, fraction
+        
     
     def execute_plan(self, plan):
         move_group = self.move_group
@@ -177,9 +176,21 @@ class MoveGroupPythonInterfaceTutorial:
         current_joints = move_group.get_current_joint_values()
         return all_close(joint_goal, current_joints, 0.01)
 
+    def attach_box(self, robot, scene):
+        # Attach a small box to the robot arm
+        box_pose = geometry_msgs.msg.PoseStamped()
+        box_pose.pose.position.x = 0.5
+        box_pose.header.frame_id = robot.get_planning_frame()
+        box_pose.pose.position.y = 0.0
+        box_pose.pose.position.z = 0.5
+        box_pose.pose.orientation.w = 1.0
+
+        box_name = "box"
+        scene.add_box(box_name, box_pose, size=(0.1, 0.1, 0.1))
+
 
 if __name__ == "__main__":
     try:
-        MoveGroupPythonInterfaceTutorial()
+        KnobLwrControl()
     except rospy.ROSInterruptException:
         pass
