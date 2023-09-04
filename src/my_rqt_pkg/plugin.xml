@@ -1,0 +1,16 @@
+<library path="src">
+  <class name="MyRQTPlugin" type="my_rqt_pkg.my_rqt_gui.MyRQTPlugin" base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      A custom RQT plugin for toggling state and displaying joint and TCP info.
+    </description>
+    <qtgui>
+      <group>
+        <label>My Group</label>
+        <statustip>Useful tools for my robot.</statustip>
+      </group>
+      <label>My RQT Plugin</label>
+      <icon type="theme">system-run</icon>
+      <statustip>A custom RQT plugin for my robot.</statustip>
+    </qtgui>
+  </class>
+</library>
