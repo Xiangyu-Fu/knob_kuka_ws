@@ -47,9 +47,9 @@ class RobotController:
         if self.knob_current_pos != data.position.data:
             self.knob_current_pos = data.position.data
             self.knob_current_force = data.force.data
-            position = [0.0, 0.5, 0.6]
-            position[1] = position[1] + 0.002 * self.knob_current_pos
-            if not self.sendMoveCartesianLin(position, [0.0, 0.0, 0.0]):
+            position = [-0.0827, 0.7009, 0.2761]
+            position[2] = position[2] + 0.001 * self.knob_current_pos
+            if not self.sendMoveCartesianLin(position, [0.0, -0.0, 3.14]):
                 rospy.loginfo("Failed to send move position to robot: ...")
         
     def send_command_to_robot(self, commands, replace_previous=True) -> None:
@@ -124,10 +124,8 @@ class RobotController:
         commandList.commands.append(command)
         commandList.replace_previous_commands = True
 
-        rospy.loginfo("Sending move position to robot: ...")  # Complete the log message
-        print(commandList)
-
         self.iiwa_driver_command_list.publish(commandList)
+        print("Sending move position to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
 
         return True
 
@@ -216,18 +214,19 @@ class RobotController:
         joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
         force = [0.01, 0.01, 0.01]
 
-        FLAG = True
+        count = 0
         while not rospy.is_shutdown():
             # Test sendMoveCartesianLin
             # self.sendMoveCartesianLin(position, angles)
-            self.sendMoveJointPtp(joints)
-            rospy.sleep(10)
-            self.sendMoveCartesianLin(position, angles)
-            rospy.sleep(10)
+            # if count%20 == 0:
+            #     position_new = position
+            #     count = 0
+            # position_new[2] = position_new[2] + 0.002
+            # self.sendMoveCartesianLin(position_new, angles)
+            # count += 1
+            rate.sleep()
         
-        # # Test sendMoveCartesianLinForce
-        # self.sendMoveCartesianLinForce(position, angles, force)
-
+        rospy.spin()
 
 if __name__ == '__main__':
     controller = RobotController()
