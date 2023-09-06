@@ -1,0 +1,7 @@
+string workcellUri  # absolute URI of a work cell
+---
+bool success        # indicates whether request was successfully completed
+string workcell     # OWL based description of requested workcell
+string description  # human-readable description
+string[] fileNames  # array with names of work cell related files
+string[] fileUris   # array with URIs of work cell related files

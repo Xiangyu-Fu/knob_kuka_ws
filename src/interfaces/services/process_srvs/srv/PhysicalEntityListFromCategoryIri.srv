@@ -1,0 +1,4 @@
+string categoryIri # For example: "http://kb.local/rest/kb/smerobotics.owl#PhysicalObject".
+---
+process_msgs/PhysicalEntity[] physicalEntities # The physical entities that already exist in the process that is loaded in the inference engine.
+middleware_msgs/Status status

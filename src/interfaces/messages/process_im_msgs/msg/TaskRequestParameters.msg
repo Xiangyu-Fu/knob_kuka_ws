@@ -1,0 +1,10 @@
+#task request parameters
+
+bool toolTipPoseIsValid
+geometry_msgs/Pose toolTipPose
+
+process_im_msgs/PickPlaceEndPoseRequestParameters   		pick_place_endpose_request_parameters 
+process_im_msgs/PickPlaceApproachEndPoseRequestParameters   	pick_place_approach_endpose_request_parameters
+
+
+

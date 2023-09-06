@@ -1,0 +1,4 @@
+string blobUri     # absolute URI of a blob
+semantic_storage_interface_msgs/RosFile blob  # blob data, filename will be ignored
+---
+bool success       # indicates whether request was successfully completed

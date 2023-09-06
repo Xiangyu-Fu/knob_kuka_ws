@@ -1,0 +1,7 @@
+string planUri      # absolute URI of a process plan
+---
+bool success        # indicates whether request was successfully completed
+string plan         # OWL based description of requested process plan
+string description  # human-readable description
+string[] fileNames  # array with names of plan related files
+string[] fileUris   # array with URIs of plan related files

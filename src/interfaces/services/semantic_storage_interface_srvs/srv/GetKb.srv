@@ -1,0 +1,7 @@
+string uri          # absolute URI of a context
+---
+bool success        # indicates whether request was successfully completed
+string owl          # OWL based description of requested context
+string description  # human-readable description
+string[] fileNames  # array with names of context related files
+string[] fileUris   # array with URIs of context related files

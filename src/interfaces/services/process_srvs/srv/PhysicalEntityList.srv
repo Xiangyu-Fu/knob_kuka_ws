@@ -1,0 +1,4 @@
+# Only lists physical entity individuals that exist in the process description that has been loaded into the inference engine.
+---
+process_msgs/PhysicalEntity[] physicalEntities
+middleware_msgs/Status status

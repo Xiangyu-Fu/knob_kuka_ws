@@ -1,0 +1,9 @@
+string processIri # May be left empty.
+bool printToFile
+bool printToTerminal
+bool printToResponse
+---
+string processIri # The IRI of the process.
+string filePath
+string owl # The content of the inference engine in RDF/XML.
+middleware_msgs/Status status

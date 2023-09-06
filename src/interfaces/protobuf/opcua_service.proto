@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package opcua.service;
+
+import "opcua_base.proto";
+
+message RequestHeader {
+    uint64 connectionToken = 1;
+}
+
+// ------------------------------
+// Connect
+// ------------------------------
+
+service ConnectService {
+    rpc Connect (ConnectRequest) returns (ConnectResponse) {}
+}
+
+message ConnectRequest {
+    string endpoint = 1;
+    string username = 2;
+    string password = 3;
+}
+
+message ConnectResponse {
+    StatusCode result = 1;
+    uint64 connectionToken = 2;
+}
+
+
+
+// ------------------------------
+// Disconnect
+// ------------------------------
+
+service DisconnectService {
+    rpc Disconnect (DisconnectRequest) returns (DisconnectResponse) {}
+}
+
+message DisconnectRequest {
+    RequestHeader header = 1;
+}
+
+message DisconnectResponse {
+    StatusCode result = 1;
+}
+
+
+// ------------------------------
+// Browse Service
+// ------------------------------
+
+service BrowseService {
+    rpc Browse (BrowseRequest) returns (BrowseResponse) {}
+}
+
+message BrowseRequest {
+    RequestHeader header = 1;
+    repeated NodeId nodeToBrowse = 2;
+}
+
+message BrowseResult {
+    StatusCode result = 1;
+    repeated Reference references = 2;
+}
+
+message BrowseResponse {
+    StatusCode result = 1;
+    repeated BrowseResult results = 2;
+}
+
+
+// ------------------------------
+// ReadAttribute Service
+// ------------------------------
+
+message ReadAttributeRequest {
+    RequestHeader header = 1;
+    NodeId nodeToRead = 2;
+}
+
+
+service ReadAttributeNodeIdService {
+    rpc ReadAttributeNodeId (ReadAttributeRequest) returns (ReadAttributeNodeIdResponse) {}
+}
+
+message ReadAttributeNodeIdResponse {
+    StatusCode result = 1;
+    NodeId value = 2;
+}
+
+service ReadAttributeNodeClassService {
+    rpc ReadAttributeNodeClass (ReadAttributeRequest) returns (ReadAttributeNodeClassResponse) {}
+}
+
+message ReadAttributeNodeClassResponse {
+    StatusCode result = 1;
+    NodeClass value = 2;
+}
+
+service ReadAttributeBrowseNameService {
+    rpc ReadAttributeBrowseName (ReadAttributeRequest) returns (ReadAttributeBrowseNameResponse) {}
+}
+
+message ReadAttributeBrowseNameResponse {
+    StatusCode result = 1;
+    QualifiedName value = 2;
+}
+
+service ReadAttributeDisplayNameService {
+    rpc ReadAttributeDisplayName (ReadAttributeRequest) returns (ReadAttributeDisplayNameResponse) {}
+}
+
+message ReadAttributeDisplayNameResponse {
+    StatusCode result = 1;
+    LocalizedText value = 2;
+}
+
+service ReadAttributeValueService {
+    rpc ReadAttributeValue (ReadAttributeRequest) returns (ReadAttributeValueResponse) {}
+}
+
+message ReadAttributeValueResponse {
+    StatusCode result = 1;
+    string value = 2;
+}
+
+service ReadAttributeValueRankService {
+    rpc ReadAttributeValueRank (ReadAttributeRequest) returns (ReadAttributeValueRankResponse) {}
+}
+
+message ReadAttributeValueRankResponse {
+    StatusCode result = 1;
+    int32 value = 2;
+}

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package opcua;
+
+
+message QualifiedName {
+    uint32 namespaceIndex = 1;
+    string name = 2;
+}
+
+message LocalizedText {
+    string locale = 1;
+    string text = 2;
+}
+
+message NodeId {
+    //enum IdentifierType { NUMERIC = 0; STRING = 1; GUID = 2; BYTESTRING = 3; }
+    // For now we only support numeric and string
+    enum IdentifierType {
+        NUMERIC = 0;
+        STRING = 1;
+    }
+    uint32 namespaceIndex = 1;
+    IdentifierType identifierType = 2;
+    oneof identifier {
+        uint32 numeric = 3;
+        string string = 4;
+    }
+}
+
+message ExpandedNodeId {
+    NodeId nodeId = 1;
+    string namespaceUri = 2;
+    uint32 serverIndex = 3;
+}
+
+
+enum NodeClass {
+    NODECLASS_UNSPECIFIED = 0;
+    NODECLASS_OBJECT = 1;
+    NODECLASS_VARIABLE = 2;
+    NODECLASS_METHOD = 4;
+    NODECLASS_OBJECTTYPE = 8;
+    NODECLASS_VARIABLETYPE = 16;
+    NODECLASS_REFERENCETYPE = 32;
+    NODECLASS_DATATYPE = 64;
+    NODECLASS_VIEW = 128;
+}
+
+enum AttributeId {
+    UA_ATTRIBUTEID_UNKNOWN                 = 0;
+    UA_ATTRIBUTEID_NODEID                  = 1;
+    UA_ATTRIBUTEID_NODECLASS               = 2;
+    UA_ATTRIBUTEID_BROWSENAME              = 3;
+    UA_ATTRIBUTEID_DISPLAYNAME             = 4;
+    UA_ATTRIBUTEID_DESCRIPTION             = 5;
+    UA_ATTRIBUTEID_WRITEMASK               = 6;
+    UA_ATTRIBUTEID_USERWRITEMASK           = 7;
+    UA_ATTRIBUTEID_ISABSTRACT              = 8;
+    UA_ATTRIBUTEID_SYMMETRIC               = 9;
+    UA_ATTRIBUTEID_INVERSENAME             = 10;
+    UA_ATTRIBUTEID_CONTAINSNOLOOPS         = 11;
+    UA_ATTRIBUTEID_EVENTNOTIFIER           = 12;
+    UA_ATTRIBUTEID_VALUE                   = 13;
+    UA_ATTRIBUTEID_DATATYPE                = 14;
+    UA_ATTRIBUTEID_VALUERANK               = 15;
+    UA_ATTRIBUTEID_ARRAYDIMENSIONS         = 16;
+    UA_ATTRIBUTEID_ACCESSLEVEL             = 17;
+    UA_ATTRIBUTEID_USERACCESSLEVEL         = 18;
+    UA_ATTRIBUTEID_MINIMUMSAMPLINGINTERVAL = 19;
+    UA_ATTRIBUTEID_HISTORIZING             = 20;
+    UA_ATTRIBUTEID_EXECUTABLE              = 21;
+    UA_ATTRIBUTEID_USEREXECUTABLE          = 22;
+}
+
+message Reference {
+    ExpandedNodeId nodeId = 1;
+    NodeId referenceType = 2;
+    NodeClass nodeClass = 3;
+    bool isForward = 4;
+    QualifiedName browseName = 5;
+    LocalizedText displayName = 6;
+}
+
+
+message Node {
+    NodeId nodeId = 1;
+    NodeClass nodeClass = 2;
+    QualifiedName browseName = 3;
+    LocalizedText displayName = 4;
+    LocalizedText description = 5;
+    repeated Reference references = 6;
+}
+
+message StatusCode {
+    uint32 code = 1;
+    string name = 2;
+}

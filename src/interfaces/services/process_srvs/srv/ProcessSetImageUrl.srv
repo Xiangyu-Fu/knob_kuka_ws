@@ -1,0 +1,4 @@
+string iri
+string imageUrl
+---
+middleware_msgs/Status status

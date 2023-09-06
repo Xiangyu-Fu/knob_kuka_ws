@@ -1,0 +1,4 @@
+string iri
+---
+float64[] homeConfiguration
+middleware_msgs/Status status

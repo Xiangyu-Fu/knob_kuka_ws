@@ -1,0 +1,4 @@
+string categoryIri # For example: "http://kb.local/rest/kb/smerobotics.owl#PhysicalObject".
+---
+process_msgs/PhysicalEntity[] physicalEntityTypes # A list of physical entities that represent their types in the ontology.
+middleware_msgs/Status status

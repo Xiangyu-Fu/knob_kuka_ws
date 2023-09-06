@@ -1,0 +1,5 @@
+string iri # Not the task's IRI.
+string[] precedesIri # Not some other tasks' IRIs. The tasks of these partial ordering constraints come after this task.
+string[] succeedsIri # Not some other tasks' IRIs. The tasks of these partial ordering constraints come before this task.
+---
+middleware_msgs/Status status

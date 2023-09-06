@@ -1,0 +1,5 @@
+string query			# query
+int32 queryLanguageType	# query language (see semantic_storage_interface_msgs/QueryLanguageTypes)
+---
+bool success   			# indicates whether request was successfully completed
+string result  			# JSON encoded query result

@@ -1,0 +1,4 @@
+string iri
+---
+world_state_model_msgs/Entity entity
+int32 error

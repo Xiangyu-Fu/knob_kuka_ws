@@ -1,0 +1,3 @@
+---
+string worldState
+int32 error

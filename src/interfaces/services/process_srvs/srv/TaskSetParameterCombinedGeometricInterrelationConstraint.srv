@@ -1,0 +1,5 @@
+string iri
+string parameterIri
+process_msgs/CombinedGeometricInterrelationConstraint combinedGeometricInterrelationConstraint
+---
+middleware_msgs/Status status

@@ -1,0 +1,4 @@
+string sparql_query # SPARQL construct query which describes the graph 
+                    # that shall be visualized
+---
+bool success  # indicates whether request was successfully completed

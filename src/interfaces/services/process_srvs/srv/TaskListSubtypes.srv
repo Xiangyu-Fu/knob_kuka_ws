@@ -1,0 +1,7 @@
+string typeIri # The IRI of a task type. May be a process type. If empty assumes <http://kb.local/rest/kb/smerobotics.owl#Task>.
+bool onlyDirect # If true, returns only direct subtypes.
+bool includeProcess # If true, may also return Process and subclasses of Process.
+bool includeItself # If true, also returns the class of the typeIri itself.
+---
+process_msgs/Class[] subtaskTypes # The subclasses of the given typeIri. Does not include owl:Nothing.
+middleware_msgs/Status status

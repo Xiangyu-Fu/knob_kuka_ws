@@ -1,0 +1,6 @@
+geometry_msgs/Vector3[] point_clicked
+geometry_msgs/Vector3[] point_model
+---
+geometry_msgs/Transform estimated_transform
+bool converged
+

@@ -1,0 +1,4 @@
+string iri # Loads the process from the semantic storage into the inference engine and starts the reasoner. This service needs to be called before a process can be modified.
+---
+process_msgs/Process process
+middleware_msgs/Status status

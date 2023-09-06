@@ -1,0 +1,4 @@
+string name # The process name gets turned into the process's IRI.
+---
+process_msgs/Process process # The new, mostly empty process.
+middleware_msgs/Status status # Returns an error if a process of that name or with the generated IRI already exists.

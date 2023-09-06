@@ -1,0 +1,5 @@
+string iri
+string parameterIri
+string physicalEntityIri
+---
+middleware_msgs/Status status

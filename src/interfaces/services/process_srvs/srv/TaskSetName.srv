@@ -1,0 +1,4 @@
+string iri
+string name
+---
+middleware_msgs/Status status

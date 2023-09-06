@@ -1,0 +1,6 @@
+string processIri # Also loads the mapped process and the current world state into the inference engine.
+string workcellIri
+bool doNotReloadProcess # If true and processIri is the IRI of the currently active process, uses the process currently active in the inference engine, instead of reloading the process from the semantic storage. If the currently active process has already been mapped and doNotReloadProcess is set to true, the process will still be reloaded.
+---
+process_msgs/Process mappedProcess
+middleware_msgs/Status status

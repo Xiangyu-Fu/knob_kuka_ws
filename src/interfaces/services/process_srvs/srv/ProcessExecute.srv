@@ -1,0 +1,3 @@
+string processIri # The process IRI returned by ProcessMapToWorkcell.srv.
+---
+bool success

@@ -1,0 +1,3 @@
+string workcellUri  # absolute URI of a work cell
+---
+bool success        # indicates whether request was successfully completed

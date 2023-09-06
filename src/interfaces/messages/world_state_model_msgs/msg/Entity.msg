@@ -1,0 +1,4 @@
+string iri
+string typeIri
+geometry_msgs/PoseWithCovarianceStamped pose
+float64 poseAccuracy

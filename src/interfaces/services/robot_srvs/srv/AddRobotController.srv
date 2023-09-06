@@ -1,0 +1,12 @@
+string kinematicFileURL
+string robotName
+int32 modelId
+bool simulation
+# robot type can be C5Gopen, KUKA_LBR_7_R800
+string robotType
+# Optional. The ip address of the robot controller
+string robotIp
+# Optional. The port for the robot controller
+uint16 robotPort
+---
+bool res

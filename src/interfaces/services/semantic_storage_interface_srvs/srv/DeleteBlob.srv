@@ -1,0 +1,3 @@
+string blobUri  # absolute URI of a blob
+---
+bool success    # indicates whether request was successfully completed

@@ -1,0 +1,9 @@
+string relativeUri # relative URI of an object (e.g. screws/metric/M10L25)
+string object      # OWL based description of object
+string description # human-readable description
+semantic_storage_interface_msgs/RosFile[] files  # object related binary files
+                   # (they must have unique file names, might be an empty array)
+---
+bool success       # indicates whether request was successfully completed
+string objectUri   # absolute URI of uploaded object
+string[] blobUris  # URIs of uploaded files

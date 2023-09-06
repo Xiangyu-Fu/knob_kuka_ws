@@ -1,0 +1,10 @@
+string uri         # absolute URI of a context
+string owl         # OWL based description of context
+string description # human-readable description
+semantic_storage_interface_msgs/RosFile[] newFiles  # context related binary files
+                   # (they must have unique file names; might be an empty array;
+                   # pre-existing files with the same name will be overwritten; 
+                   # other files will remain as they are)
+---
+bool success       # indicates whether request was successfully completed
+string[] blobUris  # URIs of uploaded files

@@ -1,0 +1,7 @@
+string objectUri    # absolute URI of an object
+---
+bool success        # indicates whether request was successfully completed
+string object       # OWL based description of requested object
+string description  # human-readable description
+string[] fileNames  # array with names of object related files
+string[] fileUris   # array with URIs of object related files

@@ -1,0 +1,9 @@
+string relativeUri  # relative base URI of a plan the blob shall be 
+                    # associated with (e.g. using relativeUri 
+                    # 'assembly/dualarm/comau_gearbox' with file 
+                    # 'data.bin' leads to blobUri 
+                    # '<HOST_URI>/assembly/dualarm/comau_gearbox/data.bin')
+semantic_storage_interface_msgs/RosFile blob  # blob data
+---
+bool success        # indicates whether request was successfully completed
+string blobUri      # absolute URI of uploaded blob

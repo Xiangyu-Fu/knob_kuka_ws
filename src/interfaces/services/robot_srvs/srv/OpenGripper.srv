@@ -1,0 +1,5 @@
+string gripperName
+float64 closeRange
+float64 closeForce
+---
+bool res

@@ -1,0 +1,5 @@
+string query      		# SPARQL query
+int32 modelNo				# Which model to query? 0: assertedModel, 1: inferredModel, 2: assertedWorldStateModel, 3: inferredWorldStateModel
+---
+bool success			# indicates whether request was successfully completed
+string result			# JSON encoded query result

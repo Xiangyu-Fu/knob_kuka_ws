@@ -1,0 +1,10 @@
+robot_control_constraint_msgs/Constraints constraint_request
+geometry_msgs/Pose[] current_pose
+float32 fixed_bounding_sphere_radius
+float32 constrained_bounding_sphere_radius
+float32[] q_delta
+---
+string error_message
+robot_control_constraint_msgs/Constraints constraint_result
+int8 converged # 0 = converged, 1 = locally converged, 2 = not converged
+geometry_msgs/Pose[] new_pose

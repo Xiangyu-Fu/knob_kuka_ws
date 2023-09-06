@@ -1,0 +1,4 @@
+# If is hard stop, the robot should stop immediately, otherwise it will stop after the current movement is completed.
+bool isHardStop
+---
+bool res

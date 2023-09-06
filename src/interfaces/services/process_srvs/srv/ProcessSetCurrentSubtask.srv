@@ -1,0 +1,5 @@
+string iri
+string currentSubtaskIri # Not the current currentSubtaskIri but the new currentSubtaskIri.
+bool publish
+---
+middleware_msgs/Status status

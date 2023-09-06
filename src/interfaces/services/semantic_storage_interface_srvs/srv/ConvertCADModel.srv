@@ -1,0 +1,4 @@
+semantic_storage_interface_msgs/RosFile blob  # CAD model (STEP, IGES, or BREP)
+---
+bool success       # indicates whether request was successfully completed
+string owl         # OWL based description of generated OntoBREP model

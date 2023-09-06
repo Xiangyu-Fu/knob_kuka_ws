@@ -1,0 +1,7 @@
+string iri
+string typeIri
+geometry_msgs/PoseWithCovarianceStamped pose
+float64 poseAccuracy # For example: 0.01 (m)
+---
+int32 error
+

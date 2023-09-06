@@ -1,0 +1,4 @@
+string iri
+---
+process_msgs/PhysicalEntity physicalEntity
+middleware_msgs/Status status

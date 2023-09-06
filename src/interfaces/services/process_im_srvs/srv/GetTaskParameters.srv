@@ -1,0 +1,16 @@
+int32 task_type   #see sub task type message for enums
+string subject_name
+string object_name
+string subject_tool_name
+string object_tool_name
+string[] execution_actors
+string workcell_uri
+
+process_im_msgs/TaskRequestParameters requestParameters
+
+string taskIri # For example: http://kb.local/rest/kb/process/Process1.owl#AssemblePartsTask1
+#string parameterIri # For example: http://kb.local/rest/kb/smerobotics.owl#endPoseConstraint
+---
+bool success
+process_im_msgs/TaskParameters parameters
+

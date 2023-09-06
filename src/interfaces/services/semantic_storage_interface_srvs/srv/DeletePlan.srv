@@ -1,0 +1,3 @@
+string planUri  # absolute URI of a process plan
+---
+bool success    # indicates whether request was successfully completed

@@ -1,0 +1,3 @@
+string objectUri  # absolute URI of an object
+---
+bool success      # indicates whether request was successfully completed

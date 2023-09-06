@@ -1,0 +1,9 @@
+string relativeUri # relative URI of a process plan (e.g. assembly/gearbox/p123)
+string plan        # OWL based description of process plan
+string description # human-readable description
+semantic_storage_interface_msgs/RosFile[] files  # plan related binary files 
+                   # (they must have unique file names, might be an empty array)
+---
+bool success       # indicates whether request was successfully completed
+string planUri     # absolute URI of uploaded plan
+string[] blobUris  # URIs of uploaded files

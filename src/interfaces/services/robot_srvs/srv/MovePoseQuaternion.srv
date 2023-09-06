@@ -1,0 +1,4 @@
+geometry_msgs/Pose x
+int32 move_type #use robot_msgs/MoveType
+---
+float64[] q

@@ -1,0 +1,10 @@
+geometry_msgs/Pose poseA
+string objectIriA
+geometry_msgs/Pose poseB
+string objectIriB
+---
+bool collides
+float64 closestDistance
+geometry_msgs/Point witnessOnA
+geometry_msgs/Point witnessOnB
+string debugComment

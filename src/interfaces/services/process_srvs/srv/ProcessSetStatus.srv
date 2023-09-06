@@ -1,0 +1,5 @@
+string iri
+int32 status # See TaskStatusEnum.msg.
+bool publish
+---
+middleware_msgs/Status status

@@ -1,0 +1,6 @@
+string task_type
+robot_control_constraint_msgs/Constraints task_constraints
+bool move_robot
+---
+int8 converged # 0 = converged, 1 = locally converged, 2 = not converged
+geometry_msgs/Transform robot_EF_target_pose

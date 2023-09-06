@@ -1,0 +1,3 @@
+int32 SERQL		= 33001
+int32 SPARQL	= 33002
+int32 SERQO		= 33003

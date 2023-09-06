@@ -1,0 +1,9 @@
+string relativeUri  # relative base URI of an object the blob shall be 
+                    # associated with (e.g. using relativeUri 
+                    # 'screw/metric/M10L25' with file 
+                    # 'kinect.zip' leads to blobUri 
+                    # '<HOST_URI>/screw/metric/M10L25/kinect.zip')
+semantic_storage_interface_msgs/RosFile blob  # blob data
+---
+bool success        # indicates whether request was successfully completed
+string blobUri      # absolute URI of uploaded blob

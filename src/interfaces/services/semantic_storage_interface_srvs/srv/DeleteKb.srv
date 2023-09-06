@@ -1,0 +1,3 @@
+string uri    # absolute URI of a context
+---
+bool success  # indicates whether request was successfully completed

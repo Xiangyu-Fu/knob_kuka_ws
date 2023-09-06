@@ -1,0 +1,4 @@
+# Only lists processes that have been saved to the semantic storage, i.e., for a process that has been loaded into the inference engine and modified but not saved, the old state of the process will be listed.
+---
+process_msgs/Process[] processes
+middleware_msgs/Status status

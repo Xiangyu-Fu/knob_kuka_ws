@@ -1,0 +1,18 @@
+#parameters associated with dual arm pick and place with approach and end pose
+
+geometry_msgs/Pose pickobject_grasp_approach
+geometry_msgs/Pose pickobject_grasp
+geometry_msgs/Pose pickobject_assembly
+geometry_msgs/Pose pickobject_final_pose #final pose of the OBJECT
+geometry_msgs/Pose pickobject_sync
+geometry_msgs/Pose pick_execution_actor_resting
+string pick_execution_actor
+float32 pickobject_gripper_span
+
+geometry_msgs/Pose placeobject_grasp_approach
+geometry_msgs/Pose placeobject_grasp
+geometry_msgs/Pose placeobject_assembly
+string place_execution_actor
+float32 placeobject_gripper_span
+
+geometry_msgs/Pose assembledobject_resting

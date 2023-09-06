@@ -1,0 +1,10 @@
+string relativeUri  # relative URI of a work cell (e.g. fortiss/comau/testbed)
+string workcell     # OWL based description of work cell
+string description  # human-readable description
+semantic_storage_interface_msgs/RosFile[] files  # work cell related binary 
+                    # files (they must have unique file names, might be an 
+                    # empty array)
+---
+bool success        # indicates whether request was successfully completed
+string workcellUri  # absolute URI of uploaded workcell
+string[] blobUris   # URIs of uploaded files

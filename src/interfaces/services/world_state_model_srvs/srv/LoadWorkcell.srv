@@ -1,0 +1,4 @@
+string workcellUrl # For example: http://kb.local/rest/kb/workcell/fortiss_racer_workcell.owl
+bool reset # Resets the world state model (including loaded workcells/ontologies) and the subscribers (perception and robot bodies).
+---
+int32 error

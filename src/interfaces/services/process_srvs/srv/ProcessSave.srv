@@ -1,0 +1,4 @@
+string iri # Saves the process from the inference engine to the semantic storage. Called by the GUI when the user exits the process view. If a changed process is not saved, the changes are discarded when another process is loaded into the inference engine.
+bool saveToFile
+---
+middleware_msgs/Status status

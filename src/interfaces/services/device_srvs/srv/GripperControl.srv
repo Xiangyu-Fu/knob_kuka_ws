@@ -1,0 +1,7 @@
+bool isOpen
+float32 range
+float32 force
+float32 speed
+float32 acceleration
+---
+bool res

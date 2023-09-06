@@ -1,0 +1,3 @@
+string typeIri
+string typeName
+string objectDetectionModelUrl

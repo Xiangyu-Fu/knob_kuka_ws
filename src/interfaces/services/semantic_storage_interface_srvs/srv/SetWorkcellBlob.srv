@@ -1,0 +1,9 @@
+string relativeUri  # relative base URI of a work cell the blob shall be 
+                    # associated with (e.g. using relativeUri 
+                    # 'fortiss/lab/testbed' with file 
+                    # 'map.data' leads to blobUri 
+                    # '<HOST_URI>/fortiss/lab/testbed/map.data')
+semantic_storage_interface_msgs/RosFile blob  # blob data
+---
+bool success        # indicates whether request was successfully completed
+string blobUri      # absolute URI of uploaded blob

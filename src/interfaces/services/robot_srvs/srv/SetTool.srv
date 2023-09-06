@@ -1,0 +1,4 @@
+string toolSemanticName
+int32 taskType
+---
+bool res

@@ -1,0 +1,7 @@
+#service to initialize teaching process by setting workcell and dynamic actors
+string workcellName
+string workcellUri
+string[] dynamicActors
+---
+bool success
+

@@ -1,0 +1,4 @@
+string topicName # Ignores leading '/'.
+int32 seq # This service call returns when seq in the subscriber of topicName in the world state model is greater than or equal to this seq.
+---
+int32 error

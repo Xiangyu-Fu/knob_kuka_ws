@@ -15,6 +15,7 @@ from visualization_msgs.msg import Marker
 import numpy as np
 from sensor_msgs.msg import JointState
 from std_msgs.msg import String, Int32, Float32
+from knob_robot_control.msg import KnobState
 
 
 try:
@@ -76,8 +77,7 @@ class KnobLwrControl:
         self.move_group = moveit_commander.MoveGroupCommander(group_name)
 
         # define the subscibers
-        self.knob_pos_sub = rospy.Subscriber("/knob_position", Int32, self.knob_position_callback)
-        self.knob_force_sub = rospy.Subscriber("/knob_force", Float32, self.knob_force_callback)
+        self.knob_state_sub = rospy.Subscriber("/knob_state", KnobState, self.knob_state_callback)
         self.knob_current_pos = None
         self.knob_current_force = None
 
@@ -98,18 +98,19 @@ class KnobLwrControl:
             # get the tcp pose
             plan, fraction = self.plan_cartesian_path()
             self.execute_plan(plan)
-            # rospy.sleep(0.1)
+            rospy.sleep(0.1)
 
         moveit_commander.roscpp_shutdown()
         moveit_commander.os._exit(0)
 
-    def knob_position_callback(self, data) -> None:
-        self.knob_current_pos = data.data   
+    def knob_state_callback(self, data) -> None:   
+        print(self.knob_current_pos)
+        self.knob_current_force = data.force.data
 
-
-
-    def knob_force_callback(self, data) -> None:
-        self.knob_current_force = data.data
+        if self.knob_current_pos != data.position.data:
+            plan, fraction = self.plan_cartesian_path()
+            self.execute_plan(plan)
+        self.knob_current_pos = data.position.data
 
 
     def plan_cartesian_path(self) -> tuple:
@@ -127,7 +128,7 @@ class KnobLwrControl:
         # start with the current pose
         if self.knob_current_pos is not None:
             wpose = move_group.get_current_pose().pose
-            wpose.position.x = self.home_pose.position.x + 0.02 * self.knob_current_pos
+            wpose.position.x = self.home_pose.position.x + 0.005 * self.knob_current_pos
             wpose.position.y = self.home_pose.position.y
             wpose.position.z = self.home_pose.position.z 
             wpose.orientation.w = wpose.orientation.w

@@ -1,0 +1,5 @@
+string taskIri
+string subtaskTypeIri
+---
+process_msgs/Task subtask
+middleware_msgs/Status status

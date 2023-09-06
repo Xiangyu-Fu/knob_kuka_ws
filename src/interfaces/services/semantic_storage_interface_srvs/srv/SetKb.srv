@@ -1,0 +1,9 @@
+string relativeUri # relative URI of a context (e.g. assembly/gearbox/p123)
+string owl         # OWL based description of context
+string description # human-readable description
+semantic_storage_interface_msgs/RosFile[] files  # context related binary files 
+                   # (they must have unique file names, might be an empty array)
+---
+bool success       # indicates whether request was successfully completed
+string contextUri  # absolute URI of context
+string[] blobUris  # URIs of uploaded files

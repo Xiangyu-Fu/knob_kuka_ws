@@ -1,0 +1,5 @@
+string iri
+string parameterIri
+string s
+---
+middleware_msgs/Status status

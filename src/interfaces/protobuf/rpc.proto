@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package RPC;
+
+message Message {
+    enum Type { UNKNOWN = 0; REQUEST = 1; RESPONSE = 2; EVENT = 3; }
+    Type type = 1;
+    Request request = 2;
+    Response response = 3;
+    Event event = 4;
+}
+
+message Request {
+    string method = 1;
+    uint32 seq = 2;
+    bytes payload = 3;
+}
+
+message Response {
+    uint32 seq = 1;
+    bool ok = 2;
+    bytes payload = 3;
+    string error = 4;
+}
+
+message Event {
+    string name = 1;
+    bytes payload = 2;
+}

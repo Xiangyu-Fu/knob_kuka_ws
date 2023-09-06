@@ -1,0 +1,4 @@
+string typeIri
+---
+process_msgs/Individual[] individuals
+middleware_msgs/Status status

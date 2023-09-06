@@ -8,9 +8,13 @@ from robot_movement_interface.msg import Command, CommandList
 from robot_movement_interface.msg import Result
 from sensor_msgs.msg import JointState
 from std_msgs.msg import String, Int32, Float32
+from knob_robot_control.msg import KnobState
+from device_msgs.msg import Status
+from threading import Lock
+
 
 class RobotController:
-    SPEED_FACTOR = 1.0  # Replace with appropriate value if needed
+    SPEED_FACTOR = 0.02  # Replace with appropriate value if needed
     HARDCODE_SPEED_CART = 1.0  # Replace with appropriate value if needed
 
     def __init__(self):
@@ -25,26 +29,28 @@ class RobotController:
         self.iiwa_driver_command_result = rospy.Subscriber("/command_result", Result, self.command_result_callback)
         self.iiwa_driver_joint_states = rospy.Subscriber("/joint_states", JointState, self.joint_states_callback)
 
-        # subscribe for the Knob's State
-        self.knob_pos_sub = rospy.Subscriber("/knob_position", Int32, self.knob_position_callback)
-        self.knob_force_sub = rospy.Subscriber("/knob_force", Float32, self.knob_force_callback)
-
+        # define the subscibers
+        self.knob_state_sub = rospy.Subscriber("/knob_state", KnobState, self.knob_state_callback)
         self.knob_current_pos = None
         self.knob_current_force = None
 
         self.currentCommandId = 0
 
+        self.mStatus = Status()
+        self.mStatusMutex = Lock()
+
     def joint_states_callback(self, data) -> None:
         # rospy.loginfo("Joint states received: ...")  
         pass
 
-    def knob_position_callback(self, data) -> None:
-        self.knob_current_pos = data.data
-
-
-    def knob_force_callback(self, data) -> None:   
-        self.knob_current_force = data.data
-       
+    def knob_state_callback(self, data) -> None:
+        if self.knob_current_pos != data.position.data:
+            self.knob_current_pos = data.position.data
+            self.knob_current_force = data.force.data
+            position = [0.0, 0.5, 0.6]
+            position[1] = position[1] + 0.002 * self.knob_current_pos
+            if not self.sendMoveCartesianLin(position, [0.0, 0.0, 0.0]):
+                rospy.loginfo("Failed to send move position to robot: ...")
         
     def send_command_to_robot(self, commands, replace_previous=True) -> None:
         """
@@ -70,8 +76,25 @@ class RobotController:
     def getSpeed(self, speed_data):
         # Implement the method to retrieve speed data
         # For now, I am assuming it always returns True with a dummy speed
-        speed_data = 1.0
+        speed_data = 0.1
         return True
+    
+    def getStatus(self, data):
+            with self.mStatusMutex:
+                data.deviceName = self.mStatus.deviceName
+                data.mode = self.mStatus.mode
+                data.action = self.mStatus.action
+                data.actionIdentifier = self.mStatus.actionIdentifier
+                data.result = self.mStatus.result
+                data.timeStamp = self.mStatus.timeStamp
+            
+            # print the status
+            print("Device Name: ", data.deviceName)
+            print("Mode: ", data.mode)
+            print("Action: ", data.action)
+            print("Action Identifier: ", data.actionIdentifier)
+            print("Result: ", data.result)
+            print("Time Stamp: ", data.timeStamp)
 
     def sendMoveCartesianLin(self, position, angles) -> bool:
         """
@@ -88,12 +111,13 @@ class RobotController:
 
         command = Command()
         command.command_id = self.currentCommandId + 1
+        self.currentCommandId = command.command_id
         command.command_type = "LIN"
         command.pose_type = "EULER_INTRINSIC_ZYX"
 
         command.pose.extend([float(val) for val in position])
         command.pose.extend([float(val) for val in angles])
-        command.velocity.append(float(speed_data))
+        command.velocity.append(float(0.1))
         command.blending = [0, 0.0001]
 
         commandList = CommandList()
@@ -101,6 +125,7 @@ class RobotController:
         commandList.replace_previous_commands = True
 
         rospy.loginfo("Sending move position to robot: ...")  # Complete the log message
+        print(commandList)
 
         self.iiwa_driver_command_list.publish(commandList)
 
@@ -125,8 +150,12 @@ class RobotController:
         command.command_type = "LINFORCE"
         command.pose_type = "EULER_INTRINSIC_ZYX"
 
-        command.pose.extend([float(val) for val in position])
-        command.pose.extend([float(val) for val in angles])
+        command.pose.append(float(position[0]))
+        command.pose.append(float(position[1]))
+        command.pose.append(float(position[2]))
+        command.pose.append(float(angles[0]))
+        command.pose.append(float(angles[1]))
+        command.pose.append(float(angles[2]))
         command.velocity.append(float(speed_data))
         command.blending = [0, 0.0001]
         command.force_threshold = [float(val) for val in force]
@@ -135,10 +164,46 @@ class RobotController:
         commandList.commands.append(command)
         commandList.replace_previous_commands = True
 
-        rospy.loginfo("Sending move position (force) to robot: ...")  # Complete the log message
+        rospy.loginfo("Sending move position (force) to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
 
         self.iiwa_driver_command_list.publish(commandList)
 
+        return True
+
+    def sendMoveJointPtp(self, q) -> bool:
+        """
+        :param q: List of 7 floats representing the joint angles.
+        :return: True if the command was sent successfully, False otherwise.
+        """
+        if len(q) != 7:
+            rospy.logerr("Got move vector with invalid size: %d != 7", len(q))
+            return False
+        
+        speed_data = None
+        if not self.getSpeed(speed_data):
+            return False
+        
+        speed_data = self.HARDCODE_SPEED_CART * self.SPEED_FACTOR
+
+        command = Command()
+        command.command_id = self.currentCommandId + 1
+        self.currentCommandId = command.command_id
+        command.command_type = "PTP"
+        command.pose_type = "JOINTS"
+
+        for i in range(7):
+            command.pose.append(float(q[i]))
+            command.velocity.append(float(speed_data))
+
+        command.blending = [0, 0.0001]
+
+        commandList = CommandList()
+        commandList.commands.append(command)
+        commandList.replace_previous_commands = True
+
+        rospy.loginfo("Sending move position to robot: {}, {}, {}, {}, {}, {}, {}, with speed: {}".format(q[0], q[1], q[2], q[3], q[4], q[5], q[6], speed_data))  
+
+        self.iiwa_driver_command_list.publish(commandList)
         return True
 
     def run(self) -> None:
@@ -146,17 +211,22 @@ class RobotController:
         rate = rospy.Rate(feq) # 10hz
         
         # Sample data for testing
-        position = [0.1, 0.2, 0.3]
-        angles = [0.1, 0.2, 0.3]
-        force = [0.5, 0.5, 0.5]
+        position = [-0.0827, 0.7209, 0.2761]
+        angles = [0.0, -0.0, 3.14]
+        joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
+        force = [0.01, 0.01, 0.01]
 
+        FLAG = True
         while not rospy.is_shutdown():
             # Test sendMoveCartesianLin
+            # self.sendMoveCartesianLin(position, angles)
+            self.sendMoveJointPtp(joints)
+            rospy.sleep(10)
             self.sendMoveCartesianLin(position, angles)
-            rate.sleep()
+            rospy.sleep(10)
         
-        # Test sendMoveCartesianLinForce
-        self.sendMoveCartesianLinForce(position, angles, force)
+        # # Test sendMoveCartesianLinForce
+        # self.sendMoveCartesianLinForce(position, angles, force)
 
 
 if __name__ == '__main__':
