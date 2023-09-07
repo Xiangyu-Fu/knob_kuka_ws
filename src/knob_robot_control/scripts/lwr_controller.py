@@ -72,7 +72,7 @@ class KnobLwrControl:
         scene = moveit_commander.PlanningSceneInterface()
         planning_scene = PlanningScene()
         planning_scene.is_diff = True
-        
+
         group_name = "full_lwr"
         self.move_group = moveit_commander.MoveGroupCommander(group_name)
 

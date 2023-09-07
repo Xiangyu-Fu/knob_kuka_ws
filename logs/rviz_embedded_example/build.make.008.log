@@ -1,0 +1,13 @@
+[35m[1mScanning dependencies of target rviz_embedded_example[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/rviz_embedded_example.dir/src/main.cpp.o[0m
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/rviz_embedded_example/src/main.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/rviz_embedded_example/src/main.cpp:41:5:[m[K [01;31m[Kerror: [m[K‘[01m[Klayout[m[K’ was not declared in this scope; did you mean ‘[01m[KQLayout[m[K’?
+   41 |     [01;31m[Klayout[m[K->addWidget(jointValuesLabel);
+      |     [01;31m[K^~~~~~[m[K
+      |     [32m[KQLayout[m[K
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/rviz_embedded_example/src/main.cpp:45:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kmain_widget[m[K’ was not declared in this scope
+   45 |     [01;31m[Kmain_widget[m[K->show();
+      |     [01;31m[K^~~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/rviz_embedded_example.dir/build.make:63: CMakeFiles/rviz_embedded_example.dir/src/main.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:345: CMakeFiles/rviz_embedded_example.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2
