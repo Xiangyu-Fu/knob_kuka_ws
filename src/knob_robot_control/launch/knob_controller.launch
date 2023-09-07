@@ -1,4 +1,6 @@
 <launch>
     <!-- Start the ROS node -->
-    <node name="robot_controller" pkg="knob_robot_control" type="knob_controller.py" output="screen"/>
+    <include file="$(find knob_robot_control)/launch/rosserial.launch"/>
+
+    <node pkg="knob_robot_control" type="knob_gui.py" name="knob_gui"/>
 </launch>
