@@ -1,4 +1,7 @@
 # knob_kuka_ws
+## Msg generation
+
+rosrun rosserial_arduino make_libraries.py /home/fu/repos/fortiss_knob/lib
 
 ## First Easy Demo
 Open the simulation and the rosserial node:
