@@ -7,6 +7,7 @@ from std_msgs.msg import String, Int32, Float32
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QDoubleSpinBox, QLabel, QLineEdit
 from knob_controller import KnobController
 
+
 class KnobCommandInterface(QWidget):
     def __init__(self):
         super().__init__()
@@ -61,13 +62,48 @@ class KnobCommandInterface(QWidget):
         layout.addWidget(QLabel("Text"))
         layout.addWidget(self.text_line_edit)
 
+
         # Create a publish button and connect it to the publish function
         publish_button = QPushButton("Publish")
         publish_button.clicked.connect(self.publish_knob_command)
         layout.addWidget(publish_button)
 
+        # std_msgs/Float32 tcp_force
+        self.tcp_force_spinbox = QDoubleSpinBox()
+        self.tcp_force_spinbox.setRange(0, 3)  # Example range, adjust as needed
+        self.tcp_force_spinbox.setValue(0)  
+        layout.addWidget(QLabel("TCP Force"))
+        layout.addWidget(self.tcp_force_spinbox)
+
+        # Create a publish button and connect it to the publish function
+        publish_button = QPushButton("Publish Force")
+        publish_button.clicked.connect(self.publish_force)
+        layout.addWidget(publish_button)
+
+
+        # Create a publish button and connect it to the publish function
+        publish_button = QPushButton("Force Tesing")
+        publish_button.clicked.connect(self.force_testing)
+        layout.addWidget(publish_button)
+
         self.setLayout(layout)
         self.setWindowTitle("Knob Command Interface")
+
+    def force_testing(self):
+        # 10s of force testing
+        for i in range(1000):
+            knob_command = KnobCommand()
+            knob_command.text.data = "force"
+            knob_command.tcp_force.data = math.sin(rospy.Time.now().to_sec()) + 1.5
+            self.knob_command_pub.publish(knob_command)
+            rospy.sleep(0.01)
+
+
+    def publish_force(self):
+        knob_command = KnobCommand()
+        knob_command.text.data = "force"
+        knob_command.tcp_force.data = float(self.tcp_force_spinbox.value())
+        self.knob_command_pub.publish(knob_command)
 
     def publish_knob_command(self):
         knob_command = KnobCommand()
@@ -79,6 +115,7 @@ class KnobCommandInterface(QWidget):
         knob_command.endstop_strength_unit.data = float(self.endstop_strength_unit_spinbox.value())
         knob_command.snap_point.data = float(self.snap_point_spinbox.value())
         knob_command.text.data = self.text_line_edit.text()
+        knob_command.tcp_force.data = float(1.0)
         self.knob_command_pub.publish(knob_command)
 
 
