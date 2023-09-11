@@ -1,13 +1,4 @@
 [35m[1mScanning dependencies of target rviz_embedded_example[0m
 [ 50%] [32mBuilding CXX object CMakeFiles/rviz_embedded_example.dir/src/main.cpp.o[0m
-[01m[K/home/fu/workspaces/knob_kuka_ws/src/rviz_embedded_example/src/main.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
-[01m[K/home/fu/workspaces/knob_kuka_ws/src/rviz_embedded_example/src/main.cpp:7:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kinit[m[K’ is not a member of ‘[01m[Kros[m[K’
-    7 |     ros::[01;31m[Kinit[m[K(argc, argv, "rviz_embedded_example");
-      |          [01;31m[K^~~~[m[K
-[01m[K/home/fu/workspaces/knob_kuka_ws/src/rviz_embedded_example/src/main.cpp:15:16:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass rviz::VisualizationFrame[m[K’ has no member named ‘[01m[KsetFixedFrame[m[K’; did you mean ‘[01m[KsetFixedSize[m[K’?
-   15 |     main_frame.[01;31m[KsetFixedFrame[m[K("world");
-      |                [01;31m[K^~~~~~~~~~~~~[m[K
-      |                [32m[KsetFixedSize[m[K
-make[2]: *** [CMakeFiles/rviz_embedded_example.dir/build.make:63: CMakeFiles/rviz_embedded_example.dir/src/main.cpp.o] Error 1
-make[1]: *** [CMakeFiles/Makefile2:345: CMakeFiles/rviz_embedded_example.dir/all] Error 2
-make: *** [Makefile:141: all] Error 2
+[100%] [32m[1mLinking CXX executable /home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/lib/rviz_embedded_example/rviz_embedded_example[0m
+[100%] Built target rviz_embedded_example

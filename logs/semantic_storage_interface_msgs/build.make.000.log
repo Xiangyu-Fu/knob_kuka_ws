@@ -1,45 +1,45 @@
 [35m[1mScanning dependencies of target _semantic_storage_interface_msgs_generate_messages_check_deps_QueryLanguageType[0m
-[35m[1mScanning dependencies of target _semantic_storage_interface_msgs_generate_messages_check_deps_WorkCell[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
-[35m[1mScanning dependencies of target _semantic_storage_interface_msgs_generate_messages_check_deps_RosFile[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
-[  0%] Built target std_msgs_generate_messages_eus
-[  0%] Built target std_msgs_generate_messages_py
-[  0%] Built target std_msgs_generate_messages_cpp
-[  0%] Built target std_msgs_generate_messages_lisp
-[  0%] Built target std_msgs_generate_messages_nodejs
-[  0%] Built target _semantic_storage_interface_msgs_generate_messages_check_deps_RosFile
 [  0%] Built target _semantic_storage_interface_msgs_generate_messages_check_deps_QueryLanguageType
+[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[  0%] Built target std_msgs_generate_messages_py
+[35m[1mScanning dependencies of target _semantic_storage_interface_msgs_generate_messages_check_deps_WorkCell[0m
 [  0%] Built target _semantic_storage_interface_msgs_generate_messages_check_deps_WorkCell
-[35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target _semantic_storage_interface_msgs_generate_messages_check_deps_RosFile[0m
+[  0%] Built target _semantic_storage_interface_msgs_generate_messages_check_deps_RosFile
+[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[  0%] Built target std_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[  0%] Built target std_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[  0%] Built target std_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
 [35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages_py[0m
+[  0%] Built target std_msgs_generate_messages_lisp
 [35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages_cpp[0m
+[  5%] [34m[1mGenerating Python from MSG semantic_storage_interface_msgs/RosFile[0m
+[ 11%] [34m[1mGenerating C++ code from semantic_storage_interface_msgs/RosFile.msg[0m
+[ 17%] [34m[1mGenerating C++ code from semantic_storage_interface_msgs/WorkCell.msg[0m
+[ 23%] [34m[1mGenerating Python from MSG semantic_storage_interface_msgs/WorkCell[0m
+[ 29%] [34m[1mGenerating C++ code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
+[ 35%] [34m[1mGenerating Python from MSG semantic_storage_interface_msgs/QueryLanguageType[0m
+[ 35%] Built target semantic_storage_interface_msgs_generate_messages_cpp
 [35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages_eus[0m
+[ 41%] [34m[1mGenerating EusLisp code from semantic_storage_interface_msgs/RosFile.msg[0m
+[ 47%] [34m[1mGenerating Python msg __init__.py for semantic_storage_interface_msgs[0m
+[ 52%] [34m[1mGenerating EusLisp code from semantic_storage_interface_msgs/WorkCell.msg[0m
+[ 52%] Built target semantic_storage_interface_msgs_generate_messages_py
+[ 58%] [34m[1mGenerating EusLisp code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
+[ 64%] [34m[1mGenerating EusLisp manifest code for semantic_storage_interface_msgs[0m
+[ 64%] Built target semantic_storage_interface_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages_nodejs[0m
+[ 70%] [34m[1mGenerating Javascript code from semantic_storage_interface_msgs/RosFile.msg[0m
+[ 76%] [34m[1mGenerating Javascript code from semantic_storage_interface_msgs/WorkCell.msg[0m
+[ 82%] [34m[1mGenerating Javascript code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
+[ 82%] Built target semantic_storage_interface_msgs_generate_messages_nodejs
 [35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages_lisp[0m
-[  5%] [34m[1mGenerating Javascript code from semantic_storage_interface_msgs/RosFile.msg[0m
-[ 11%] [34m[1mGenerating EusLisp code from semantic_storage_interface_msgs/RosFile.msg[0m
-[ 17%] [34m[1mGenerating C++ code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
-[ 23%] [34m[1mGenerating C++ code from semantic_storage_interface_msgs/RosFile.msg[0m
-[ 29%] [34m[1mGenerating Python from MSG semantic_storage_interface_msgs/RosFile[0m
-[ 35%] [34m[1mGenerating Javascript code from semantic_storage_interface_msgs/WorkCell.msg[0m
-[ 41%] [34m[1mGenerating C++ code from semantic_storage_interface_msgs/WorkCell.msg[0m
-[ 47%] [34m[1mGenerating Lisp code from semantic_storage_interface_msgs/RosFile.msg[0m
-[ 52%] [34m[1mGenerating Python from MSG semantic_storage_interface_msgs/WorkCell[0m
-[ 58%] [34m[1mGenerating Javascript code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
-[ 64%] [34m[1mGenerating EusLisp code from semantic_storage_interface_msgs/WorkCell.msg[0m
-[ 70%] [34m[1mGenerating Lisp code from semantic_storage_interface_msgs/WorkCell.msg[0m
-[ 76%] [34m[1mGenerating Lisp code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
-[ 76%] Built target semantic_storage_interface_msgs_generate_messages_nodejs
-[ 82%] [34m[1mGenerating EusLisp code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
-[ 88%] [34m[1mGenerating EusLisp manifest code for semantic_storage_interface_msgs[0m
-[ 94%] [34m[1mGenerating Python from MSG semantic_storage_interface_msgs/QueryLanguageType[0m
-[ 94%] Built target semantic_storage_interface_msgs_generate_messages_cpp
-[ 94%] Built target semantic_storage_interface_msgs_generate_messages_lisp
-[100%] [34m[1mGenerating Python msg __init__.py for semantic_storage_interface_msgs[0m
-[100%] Built target semantic_storage_interface_msgs_generate_messages_py
-[100%] Built target semantic_storage_interface_msgs_generate_messages_eus
+[ 88%] [34m[1mGenerating Lisp code from semantic_storage_interface_msgs/RosFile.msg[0m
+[ 94%] [34m[1mGenerating Lisp code from semantic_storage_interface_msgs/WorkCell.msg[0m
+[100%] [34m[1mGenerating Lisp code from semantic_storage_interface_msgs/QueryLanguageType.msg[0m
+[100%] Built target semantic_storage_interface_msgs_generate_messages_lisp
 [35m[1mScanning dependencies of target semantic_storage_interface_msgs_generate_messages[0m
 [100%] Built target semantic_storage_interface_msgs_generate_messages

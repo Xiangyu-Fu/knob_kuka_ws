@@ -1,11 +1,4 @@
 Cloning into 'FRILibrary'...
-[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_hw/src/fri/friudp.cpp:[m[K In member function ‘[01m[Kint friUdp::Recv(tFriMsrData*)[m[K’:
-[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_hw/src/fri/friudp.cpp:185:70:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%d[m[K’ expects argument of type ‘[01m[Kint[m[K’, but argument 3 has type ‘[01m[Klong unsigned int[m[K’ [[01;35m[K-Wformat=[m[K]
-  185 |             printf("received something, but wrong size %d (expected [01;35m[K%d[m[K)...\n",received, [32m[Ksizeof(tFriMsrData)[m[K);
-      |                                                                     [01;35m[K~^[m[K                  [32m[K~~~~~~~~~~~~~~~~~~~[m[K
-      |                                                                      [01;35m[K|[m[K                  [32m[K|[m[K
-      |                                                                      [01;35m[Kint[m[K                [32m[Klong unsigned int[m[K
-      |                                                                     [32m[K%ld[m[K
 Note: switching to 'a10695fad32ba8315817c42020e2dbc66f4505dd'.
 
 You are in 'detached HEAD' state. You can look around, make experimental
@@ -30,6 +23,13 @@ CMake Warning:
   become a fatal error in future CMake releases.
 
 
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_hw/src/fri/friudp.cpp:[m[K In member function ‘[01m[Kint friUdp::Recv(tFriMsrData*)[m[K’:
+[01m[K/home/fu/workspaces/knob_kuka_ws/src/robot/kuka-lwr/lwr_hw/src/fri/friudp.cpp:185:70:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%d[m[K’ expects argument of type ‘[01m[Kint[m[K’, but argument 3 has type ‘[01m[Klong unsigned int[m[K’ [[01;35m[K-Wformat=[m[K]
+  185 |             printf("received something, but wrong size %d (expected [01;35m[K%d[m[K)...\n",received, [32m[Ksizeof(tFriMsrData)[m[K);
+      |                                                                     [01;35m[K~^[m[K                  [32m[K~~~~~~~~~~~~~~~~~~~[m[K
+      |                                                                      [01;35m[K|[m[K                  [32m[K|[m[K
+      |                                                                      [01;35m[Kint[m[K                [32m[Klong unsigned int[m[K
+      |                                                                     [32m[K%ld[m[K
 make[3]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
 [01m[K/home/fu/workspaces/knob_kuka_ws/build/lwr_hw/FRILibrary-prefix/src/FRILibrary/src/FastResearchInterfaceLibrary/FastResearchInterface.cpp:[m[K In constructor ‘[01m[KFastResearchInterface::FastResearchInterface(const char*)[m[K’:
 [01m[K/home/fu/workspaces/knob_kuka_ws/build/lwr_hw/FRILibrary-prefix/src/FRILibrary/src/FastResearchInterfaceLibrary/FastResearchInterface.cpp:243:34:[m[K [01;35m[Kwarning: [m[Kembedded ‘[01m[K\0[m[K’ in format [[01;35m[K-Wformat-contains-nul[m[K]

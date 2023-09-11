@@ -20,12 +20,12 @@
 [35m[1mScanning dependencies of target interaction_manager_srvs_generate_messages_eus[0m
 [ 57%] [34m[1mGenerating EusLisp code from interaction_manager_srvs/SetPerceptionTopicNames.srv[0m
 [ 71%] [34m[1mGenerating EusLisp manifest code for interaction_manager_srvs[0m
+[ 71%] Built target interaction_manager_srvs_generate_messages_eus
 [35m[1mScanning dependencies of target interaction_manager_srvs_generate_messages_cpp[0m
 [ 85%] [34m[1mGenerating C++ code from interaction_manager_srvs/SetPerceptionTopicNames.srv[0m
 [ 85%] Built target interaction_manager_srvs_generate_messages_cpp
 [35m[1mScanning dependencies of target interaction_manager_srvs_generate_messages_lisp[0m
 [100%] [34m[1mGenerating Lisp code from interaction_manager_srvs/SetPerceptionTopicNames.srv[0m
 [100%] Built target interaction_manager_srvs_generate_messages_lisp
-[100%] Built target interaction_manager_srvs_generate_messages_eus
 [35m[1mScanning dependencies of target interaction_manager_srvs_generate_messages[0m
 [100%] Built target interaction_manager_srvs_generate_messages

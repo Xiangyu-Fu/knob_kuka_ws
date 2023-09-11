@@ -1,4 +1,0 @@
-[35m[1mScanning dependencies of target rviz_embedded_example[0m
-[ 50%] [32mBuilding CXX object CMakeFiles/rviz_embedded_example.dir/src/main.cpp.o[0m
-[100%] [32m[1mLinking CXX executable /home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/lib/rviz_embedded_example/rviz_embedded_example[0m
-[100%] Built target rviz_embedded_example
