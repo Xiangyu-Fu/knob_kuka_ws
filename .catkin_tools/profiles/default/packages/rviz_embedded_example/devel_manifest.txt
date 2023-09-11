@@ -1,6 +1,0 @@
-rviz_embedded_example
-/home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/cmake.lock /home/fu/workspaces/knob_kuka_ws/devel/./cmake.lock
-/home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/share/rviz_embedded_example/cmake/rviz_embedded_exampleConfig-version.cmake /home/fu/workspaces/knob_kuka_ws/devel/share/rviz_embedded_example/cmake/rviz_embedded_exampleConfig-version.cmake
-/home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/share/rviz_embedded_example/cmake/rviz_embedded_exampleConfig.cmake /home/fu/workspaces/knob_kuka_ws/devel/share/rviz_embedded_example/cmake/rviz_embedded_exampleConfig.cmake
-/home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/lib/pkgconfig/rviz_embedded_example.pc /home/fu/workspaces/knob_kuka_ws/devel/lib/pkgconfig/rviz_embedded_example.pc
-/home/fu/workspaces/knob_kuka_ws/devel/.private/rviz_embedded_example/lib/rviz_embedded_example/rviz_embedded_example /home/fu/workspaces/knob_kuka_ws/devel/lib/rviz_embedded_example/rviz_embedded_example

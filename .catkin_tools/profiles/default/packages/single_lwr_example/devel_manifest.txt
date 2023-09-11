@@ -1,2 +1,0 @@
-robot/kuka-lwr/single_lwr_example/single_lwr_example
-/home/fu/workspaces/knob_kuka_ws/devel/.private/single_lwr_example/cmake.lock /home/fu/workspaces/knob_kuka_ws/devel/./cmake.lock

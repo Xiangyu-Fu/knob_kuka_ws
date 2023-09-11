@@ -1,5 +1,0 @@
-robot/kuka-lwr/lwr_description
-/home/fu/workspaces/knob_kuka_ws/devel/.private/lwr_description/cmake.lock /home/fu/workspaces/knob_kuka_ws/devel/./cmake.lock
-/home/fu/workspaces/knob_kuka_ws/devel/.private/lwr_description/share/lwr_description/cmake/lwr_descriptionConfig-version.cmake /home/fu/workspaces/knob_kuka_ws/devel/share/lwr_description/cmake/lwr_descriptionConfig-version.cmake
-/home/fu/workspaces/knob_kuka_ws/devel/.private/lwr_description/share/lwr_description/cmake/lwr_descriptionConfig.cmake /home/fu/workspaces/knob_kuka_ws/devel/share/lwr_description/cmake/lwr_descriptionConfig.cmake
-/home/fu/workspaces/knob_kuka_ws/devel/.private/lwr_description/lib/pkgconfig/lwr_description.pc /home/fu/workspaces/knob_kuka_ws/devel/lib/pkgconfig/lwr_description.pc
