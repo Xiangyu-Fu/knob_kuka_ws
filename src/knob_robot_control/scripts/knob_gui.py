@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QDoubleSpinBox, QLabel, QLineEdit
+from PyQt5.QtChart import QChart, QChartView, QLineSeries, QValueAxis
+from PyQt5.QtGui import QPainter
+from PyQt5.QtCore import Qt
+
+
 import sys
 import math
 import rospy
@@ -19,6 +26,28 @@ class KnobCommandInterface(QWidget):
 
         # Create GUI layout
         layout = QVBoxLayout()
+
+        # Initialize chart
+        self.chart = QChart()
+        self.chart.setTitle("Example Chart")
+        self.chart_view = QChartView(self.chart)
+        self.chart_view.setRenderHint(QPainter.Antialiasing)
+        layout.addWidget(self.chart_view)
+
+        # Create a series for the chart (you can add data points to this series)
+        self.series = QLineSeries()
+        self.chart.addSeries(self.series)
+
+        # Create and set the axis for the chart
+        self.axisX = QValueAxis()
+        self.axisY = QValueAxis()
+        self.axisX.setTitleText("X Axis")
+        self.axisY.setTitleText("Y Axis")
+        self.chart.setAxisX(self.axisX, self.series)
+        self.chart.setAxisY(self.axisY, self.series)
+        self.axisX.setRange(0, 10)  # Example range for x-axis
+        self.axisY.setRange(0, 10)  # Example range for y-axis
+
 
         # Create widgets for each KnobCommand parameter
         self.num_positions_spinbox = QDoubleSpinBox()
