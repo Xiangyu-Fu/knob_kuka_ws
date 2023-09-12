@@ -1,5 +1,0 @@
-robot/fortiss-lwr/fortiss_lwr_launch
-/home/fu/workspaces/knob_kuka_ws/devel/.private/fortiss_lwr_launch/cmake.lock /home/fu/workspaces/knob_kuka_ws/devel/./cmake.lock
-/home/fu/workspaces/knob_kuka_ws/devel/.private/fortiss_lwr_launch/share/fortiss_lwr_launch/cmake/fortiss_lwr_launchConfig-version.cmake /home/fu/workspaces/knob_kuka_ws/devel/share/fortiss_lwr_launch/cmake/fortiss_lwr_launchConfig-version.cmake
-/home/fu/workspaces/knob_kuka_ws/devel/.private/fortiss_lwr_launch/share/fortiss_lwr_launch/cmake/fortiss_lwr_launchConfig.cmake /home/fu/workspaces/knob_kuka_ws/devel/share/fortiss_lwr_launch/cmake/fortiss_lwr_launchConfig.cmake
-/home/fu/workspaces/knob_kuka_ws/devel/.private/fortiss_lwr_launch/lib/pkgconfig/fortiss_lwr_launch.pc /home/fu/workspaces/knob_kuka_ws/devel/lib/pkgconfig/fortiss_lwr_launch.pc
