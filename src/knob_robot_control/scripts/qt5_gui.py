@@ -5,6 +5,7 @@ import sys
 import math
 import rospy
 from knob_robot_control.msg import KnobState, KnobCommand
+from robot_movement_interface.msg import EulerFrame
 from std_msgs.msg import String, Int32, Float32
 from threading import Lock, Thread
 from robot_controller import RobotController
@@ -31,7 +32,7 @@ class Ui_MainWindow(object):
         self.knob_state_sub = rospy.Subscriber("/knob_state", KnobState, self.knob_state_callback)
         self.tcp_wrench_sub = rospy.Subscriber("/tcp_wrench", WrenchStamped, self.tcp_wrench_callback)
         self.joint_state_sub = rospy.Subscriber("/joint_states", JointState, self.joint_state_callback)
-        # self.tcp_state_sub = rospy.Subscriber("/tool_frame", String, self.tcp_state_callback) 
+        self.tcp_state_sub = rospy.Subscriber("/tool_frame", EulerFrame, self.tcp_state_callback) 
         self.knob_command_pub = rospy.Publisher("/knob_command", KnobCommand, queue_size=10)
 
     def setupUi(self, MainWindow):
@@ -252,7 +253,6 @@ class Ui_MainWindow(object):
         self.widget5.setObjectName("widget5")
         self.verticalLayout_chart = QtWidgets.QVBoxLayout(self.widget5)
 
-
         self.chart = QChart()
         self.chart.setTitle("Example Chart")
         self.chart_view = QChartView(self.chart)
@@ -273,6 +273,20 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def update_chart(data):
+        # Convert the ROS data to a suitable format for the chart
+        value = data.data  # Assuming data is a single float value
+
+        # Append the new data to the chart's series
+        # Assuming a time-based x-axis and the data value on the y-axis
+        current_count = len(self.series.points())
+        self.series.append(current_count, value)
+        
+        # Optionally: Adjust the x-axis range to show the latest data
+        if current_count > 10:  # For example, if we want to show only the last 10 data points
+            self.axisX.setRange(current_count - 10, current_count)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -453,13 +467,20 @@ class Ui_MainWindow(object):
                 return
 
     def joint_state_callback(self, data) -> None:
-        self.doubleSpinBox_13.setValue(data.position[0])
-        self.doubleSpinBox_14.setValue(data.position[1])
-        self.doubleSpinBox_15.setValue(data.position[2])
+        # update the joint state
+        print(data.position)
+        self.doubleSpinBox_14.setValue(data.position[0])
+        self.doubleSpinBox_15.setValue(data.position[1])
+        self.doubleSpinBox_13.setValue(data.position[2])
         self.doubleSpinBox_16.setValue(data.position[3])
         self.doubleSpinBox_17.setValue(data.position[4])
         self.doubleSpinBox_18.setValue(data.position[5])
-        rospy.sleep(0.1)
+
+    def tcp_state_callback(self, data) -> None:
+        self.text_line_edit.setValue(data.x)
+        self.doubleSpinBox_8.setValue(data.y)
+        self.doubleSpinBox_9.setValue(data.z)
+
 
 
 
