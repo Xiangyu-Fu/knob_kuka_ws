@@ -259,36 +259,45 @@ class Ui_MainWindow(object):
         self.chart_view.setRenderHint(QPainter.Antialiasing)
         self.verticalLayout_chart.addWidget(self.chart_view)
 
-        self.series = QLineSeries()
-        self.chart.addSeries(self.series)
+        self.series1 = QLineSeries()
+        self.chart.addSeries(self.series1)
+        self.series1.setName("TCP Force")
+
+        self.series2 = QLineSeries()
+        self.chart.addSeries(self.series2)
+        self.series2.setName("Knob Force")
 
         self.axisX = QValueAxis()
         self.axisY = QValueAxis()
         self.axisX.setTitleText("X Axis")
         self.axisY.setTitleText("Y Axis")
-        self.chart.setAxisX(self.axisX, self.series)
-        self.chart.setAxisY(self.axisY, self.series)
-        self.axisX.setRange(0, 10)  # Example range for x-axis
-        self.axisY.setRange(0, 10)  # Example range for y-axis
+        self.chart.setAxisX(self.axisX, self.series1)
+        self.chart.setAxisY(self.axisY, self.series1)
+        self.chart.setAxisX(self.axisX, self.series2)
+        self.chart.setAxisY(self.axisY, self.series2)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def update_chart(data):
-        # Convert the ROS data to a suitable format for the chart
-        value = data.data  # Assuming data is a single float value
-
-        # Append the new data to the chart's series
-        # Assuming a time-based x-axis and the data value on the y-axis
-        current_count = len(self.series.points())
-        self.series.append(current_count, value)
+    def update_chart_tcp(self, value) -> None:
+        current_count = len(self.series1.points())
+        self.series1.append(current_count, value)
         
-        # Optionally: Adjust the x-axis range to show the latest data
-        if current_count > 10:  # For example, if we want to show only the last 10 data points
-            self.axisX.setRange(current_count - 10, current_count)
+        # # Append the new data to the chart's series
+        # current_count = len(self.series.points())
+        # self.series.append(current_count, value)
+        
+        # # Adjust the x-axis range to show the latest data
+        # if current_count > 10:  # For example, if we want to show only the last 10 data points
+        #     self.axisX.setRange(current_count - 10, current_count)
 
+    def update_chart_knob(self, data) -> None:
+        # Convert ROS data to a suitable format for the chart
+        value = data.force.data
+        current_count = len(self.series2.points())
+        self.series2.append(current_count, value)  
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, MainWindow) -> None:
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuHome.setTitle(_translate("MainWindow", "Home"))
@@ -379,7 +388,7 @@ class Ui_MainWindow(object):
         
         return mode, tcp, joint       
 
-    def force_testing(self):
+    def force_testing(self) -> None:
         # 10s of force testing
         for i in range(1000):
             knob_command = KnobCommand()
@@ -388,13 +397,13 @@ class Ui_MainWindow(object):
             self.knob_command_pub.publish(knob_command)
             rospy.sleep(0.01)
 
-    def publish_force(self, force=1.0):
+    def publish_force(self, force=1.0) -> None:
         knob_command = KnobCommand()
         knob_command.text.data = "force"
         knob_command.tcp_force.data = float(force)
         self.knob_command_pub.publish(knob_command)
 
-    def publish_knob_command(self):  
+    def publish_knob_command(self) -> None:  
         knob_command = KnobCommand()
         knob_command.header.stamp = rospy.Time.now()
         knob_command.num_positions.data = int(self.num_positions_spinbox.value())
@@ -445,9 +454,11 @@ class Ui_MainWindow(object):
                 # clamp the force to (0, 3)
                 clamp_force = max(1, min(abs(current_force)/10, 4))
 
+            self.update_chart_tcp(current_force)
             self.publish_force(clamp_force)
 
     def knob_state_callback(self, data) -> None:
+        self.update_chart_knob(data)
         # if knob state changed, then send the command to the robot
         if self.knob_current_pos != data.position.data:
             CONTROL_MODE, TCP_AXIS, CONTROL_JOINT = self.check_current_selections()
@@ -480,9 +491,6 @@ class Ui_MainWindow(object):
         self.text_line_edit.setValue(data.x)
         self.doubleSpinBox_8.setValue(data.y)
         self.doubleSpinBox_9.setValue(data.z)
-
-
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
