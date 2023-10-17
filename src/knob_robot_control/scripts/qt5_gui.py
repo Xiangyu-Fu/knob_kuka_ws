@@ -276,6 +276,9 @@ class Ui_MainWindow(object):
         self.chart.setAxisX(self.axisX, self.series2)
         self.chart.setAxisY(self.axisY, self.series2)
 
+        self.axisX.setRange(0, 100) 
+        self.axisY.setRange(-10, 10)  
+        
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -294,8 +297,11 @@ class Ui_MainWindow(object):
     def update_chart_knob(self, data) -> None:
         # Convert ROS data to a suitable format for the chart
         value = data.force.data
-        current_count = len(self.series2.points())
+        current_count = self.series2.count()
         self.series2.append(current_count, value)  
+        if current_count > 100:  # For example, if we want to show only the last 10 data points
+            self.axisX.setRange(current_count - 100, current_count)
+            self.axisY.setRange(-10, 10) ## need to be change 
 
     def retranslateUi(self, MainWindow) -> None:
         _translate = QtCore.QCoreApplication.translate
