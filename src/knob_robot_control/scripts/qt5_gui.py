@@ -282,28 +282,12 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def update_chart_tcp(self, value) -> None:
-        current_count = len(self.series1.points())
-        self.series1.append(current_count, value)
-        
-        # # Append the new data to the chart's series
-        # current_count = len(self.series.points())
-        # self.series.append(current_count, value)
-        
-        # # Adjust the x-axis range to show the latest data
-        # if current_count > 10:  # For example, if we want to show only the last 10 data points
-        #     self.axisX.setRange(current_count - 10, current_count)
-
-    def update_chart_knob(self, data) -> None:
-        # Convert ROS data to a suitable format for the chart
-        value = data.force.data
-        current_count = self.series2.count()
-        self.series2.append(current_count, value)  
-        if current_count > 100:  # For example, if we want to show only the last 10 data points
-            self.axisX.setRange(current_count - 100, current_count)
-            self.axisY.setRange(-10, 10) ## need to be change 
 
     def retranslateUi(self, MainWindow) -> None:
+        """
+        This function is responsible for setting up the user interface of the MainWindow.
+        It sets the window title, ranges and default values for spinboxes, button callbacks, labels, and mode selection.
+        """
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuHome.setTitle(_translate("MainWindow", "Home"))
@@ -361,7 +345,43 @@ class Ui_MainWindow(object):
         self.radioButton_9.setText(_translate("MainWindow", "Joint 4"))
         self.radioButton_10.setText(_translate("MainWindow", "Joint 5"))
         self.radioButton_11.setText(_translate("MainWindow", "Joint 6"))
-        self.radioButton_7.setChecked(True) 
+        self.radioButton_7.setChecked(True)
+
+    def update_chart_tcp(self, value) -> None:
+        """
+        Update the chart with a new TCP value.
+
+        Args:
+            value (float): The new TCP value to add to the chart.
+
+        Returns:
+            None
+        """
+        # Append the new data to the chart's series
+        current_count = len(self.series1.points())
+        self.series1.append(current_count, value)
+        
+        # # Adjust the x-axis range to show the latest data
+        # if current_count > 10:  # For example, if we want to show only the last 10 data points
+        #     self.axisX.setRange(current_count - 10, current_count)
+
+    def update_chart_knob(self, data) -> None:
+        """
+        Update the chart with the reading knob force.
+
+        Args:
+            data: A ROS message containing the force data.
+
+        Returns:
+            None
+        """
+        # Convert ROS data to a suitable format for the chart
+        value = data.force.data
+        current_count = self.series2.count()
+        self.series2.append(current_count, value)  
+        if current_count > 100:  # For example, if we want to show only the last 100 data points
+            self.axisX.setRange(current_count - 100, current_count)
+            self.axisY.setRange(-10, 10) ## need to be change
 
     def check_current_selections(self) -> tuple:
         # Checking Mode
@@ -476,7 +496,7 @@ class Ui_MainWindow(object):
                 self.knob_current_force = data.force.data
                 position = [-0.0827, 0.7009, 0.2761]
                 position[int(TCP_AXIS)] = position[int(TCP_AXIS)] + 0.001 * self.knob_current_pos
-                print(position)
+                print("\r",position, "                      ", end="")
                 # if not self.sendMoveCartesianLin(position, [0.0, -0.0, 3.14]):
                 #     rospy.loginfo("Failed to send move position to robot: ...")
             else:

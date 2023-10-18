@@ -40,7 +40,8 @@ GUI interface for the robot control
 
 ## Trouble Shooting
 
-ModuleNotFoundError: No module named 'PyQt5.QtChart'
+
+###  ModuleNotFoundError: No module named 'PyQt5.QtChart'
 
 ```
 pip install -U pip
