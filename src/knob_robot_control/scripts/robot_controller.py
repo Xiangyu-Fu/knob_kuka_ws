@@ -14,7 +14,7 @@ from threading import Lock
 
 
 class RobotController:
-    SPEED_FACTOR = 0.02  # Replace with appropriate value if needed
+    SPEED_FACTOR = 0.1  # Replace with appropriate value if needed
     HARDCODE_SPEED_CART = 1.0  # Replace with appropriate value if needed
 
     def __init__(self):
@@ -99,7 +99,7 @@ class RobotController:
         command = Command()
         command.command_id = self.currentCommandId + 1
         self.currentCommandId = command.command_id
-        command.command_type = "LIN"
+        command.command_type = "LINIMPEDENCE"
         command.pose_type = "EULER_INTRINSIC_ZYX"
 
         command.pose.extend([float(val) for val in position])
@@ -112,7 +112,7 @@ class RobotController:
         commandList.replace_previous_commands = True
 
         self.iiwa_driver_command_list.publish(commandList)
-        print("Sending move position to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
+        print("Sending impedence move position to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
 
         return True
 
@@ -191,39 +191,84 @@ class RobotController:
         self.iiwa_driver_command_list.publish(commandList)
         return True
 
+    def sendMoveCartesianLinImpedence(self, position, angles, force) -> bool:
+        """
+
+        :param position: List of 3 floats representing the position of the end effector.
+        :param angles: List of 3 floats representing the orientation of the end effector.
+        :param force: List of 3 floats representing the force threshold of the end effector.
+        :return: True if the command was sent successfully, False otherwise.
+        """
+        speed_data = None
+        if not self.getSpeed(speed_data):
+            return False
+
+        speed_data = self.HARDCODE_SPEED_CART * self.SPEED_FACTOR
+
+        command = Command()
+        command.command_id = self.currentCommandId + 1
+        command.command_type = "LINIMPEDENCE"
+        command.pose_type = "EULER_INTRINSIC_ZYX"
+
+        command.pose.append(float(position[0]))
+        command.pose.append(float(position[1]))
+        command.pose.append(float(position[2]))
+        command.pose.append(float(angles[0]))
+        command.pose.append(float(angles[1]))
+        command.pose.append(float(angles[2]))
+        command.velocity.append(float(speed_data))
+        command.force_threshold = [float(val) for val in force]
+
+        commandList = CommandList()
+        commandList.commands.append(command)
+        commandList.replace_previous_commands = True
+
+        rospy.loginfo("Sending move position (impedence) to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
+
+        self.iiwa_driver_command_list.publish(commandList)
+
+        return True
+
     def run(self) -> None:
         feq = 1
         rate = rospy.Rate(feq) # 10hz
         
         # Sample data for testing
-        position = [-0.0827, 0.6209, 0.2761]
+        position_target = [-0.08374, 0.5547, 0.05418]
+        position_home = [-0.08374, 0.4547, 0.25418]
         angles = [0.0, -0.0, 3.14]
         joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
         force = [5, 5, 5]
 
         count = 0
+
+        rospy.sleep(3)
         
         while not rospy.is_shutdown():
-            if count == 2:
-                self.sendMoveCartesianLinForce(position, angles, force)
+            # if count == 2:
+            #     self.sendMoveCartesianLinForce(position, angles, force)
             # Test sendMoveCartesianLin
-            self.sendMoveCartesianLin(position, angles)
-            if count%20 == 0:
-                position_new = position
-                count = 0
-            position_new[2] = position_new[2] + 0.002
-            self.sendMoveCartesianLin(position_new, angles)
-            count += 1
+            # self.sendMoveCartesianLin(position, angles)
+            # if count%20 == 0:
+            #     position_new = position
+            #     count = 0
+            # position_new[2] = position_new[2] + 0.002
+            # self.sendMoveCartesianLinImpedence(position_new, angles, force)
+            # count += 1
 
             # Test sendMoveCartesianLinForce
             # self.sendMoveCartesianLinForce(position, angles, force)
-            # if count%2 == 0:
-            #     position_new = [-0.0827, 0.7209, 0.2761]
+            # if count%10 == 0:
+            #     position_new = [-0.08374, 0.5547, 0.23418]
             # position_new[2] = position_new[2] - 0.09
-            # position_new = [-0.0827, 0.7209, 0.3061]
-            # self.sendMoveCartesianLinForce(position_new, angles, force)
-            count += 1
-            rate.sleep()
+
+            self.sendMoveCartesianLinImpedence(position_target, angles, force)
+            # count += 1
+            # rate.sleep()
+
+            rospy.sleep(10)
+            self.sendMoveCartesianLinImpedence(position_home, angles, force)
+            rospy.sleep(10)
         
         # rospy.spin()
 
