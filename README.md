@@ -47,3 +47,16 @@ GUI interface for the robot control
 pip install -U pip
 pip install pyqt5 --config-settings --confirm-license= --verbose
 ```
+
+
+## UPDATE in Dec.20.2023
+
+Frist, you need to change the robot IP in the `src/robot_movement_interface/iiwa_driver/ros/config/config.yaml`
+
+Then open the terminals and run the following commands:
+
+```bash
+roslaunch iiwa_driver start.launch
+rosrun knob_robot_control robot_controller.py
+```
+
