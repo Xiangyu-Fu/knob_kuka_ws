@@ -1,0 +1,3 @@
+[submodule "src/robot_movement_interface"]
+	path = src/robot_movement_interface
+	url = git@github.com:Xiangyu-Fu/robot_movement_interface.git
