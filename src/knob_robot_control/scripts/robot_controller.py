@@ -199,10 +199,13 @@ class RobotController:
         position = [-0.0827, 0.7209, 0.2761]
         angles = [0.0, -0.0, 3.14]
         joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
-        force = [0.01, 0.01, 0.01]
+        force = [5, 5, 5]
 
         count = 0
+        
         while not rospy.is_shutdown():
+            if count == 2:
+                self.sendMoveCartesianLinForce(position, angles, force)
             # Test sendMoveCartesianLin
             # self.sendMoveCartesianLin(position, angles)
             # if count%20 == 0:
@@ -211,9 +214,18 @@ class RobotController:
             # position_new[2] = position_new[2] + 0.002
             # self.sendMoveCartesianLin(position_new, angles)
             # count += 1
+
+            # Test sendMoveCartesianLinForce
+            # self.sendMoveCartesianLinForce(position, angles, force)
+            # if count%2 == 0:
+            #     position_new = [-0.0827, 0.7209, 0.2761]
+            # position_new[2] = position_new[2] - 0.09
+            # position_new = [-0.0827, 0.7209, 0.3061]
+            # self.sendMoveCartesianLinForce(position_new, angles, force)
+            count += 1
             rate.sleep()
         
-        rospy.spin()
+        # rospy.spin()
 
 if __name__ == '__main__':
     controller = RobotController()
