@@ -207,13 +207,13 @@ class RobotController:
             if count == 2:
                 self.sendMoveCartesianLinForce(position, angles, force)
             # Test sendMoveCartesianLin
-            # self.sendMoveCartesianLin(position, angles)
-            # if count%20 == 0:
-            #     position_new = position
-            #     count = 0
-            # position_new[2] = position_new[2] + 0.002
-            # self.sendMoveCartesianLin(position_new, angles)
-            # count += 1
+            self.sendMoveCartesianLin(position, angles)
+            if count%20 == 0:
+                position_new = position
+                count = 0
+            position_new[2] = position_new[2] + 0.002
+            self.sendMoveCartesianLin(position_new, angles)
+            count += 1
 
             # Test sendMoveCartesianLinForce
             # self.sendMoveCartesianLinForce(position, angles, force)
