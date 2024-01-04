@@ -99,10 +99,12 @@ class KnobGui(Ui_MainWindow):
             elif CONTROL_MODE == "TCP":
                 self.knob_current_pos = data.position.data
                 self.knob_current_force = data.force.data
-                position = [-0.0827, 0.7009, 0.2761]
-                position[TCP_AXIS] = position[TCP_AXIS] + 0.001 * self.knob_current_pos
-                if not self.sendMoveCartesianLin(position, [0.0, -0.0, 3.14]):
-                    rospy.loginfo("Failed to send move position to robot: ...")
+                iiwa_tcp_position = [-0.0827, 0.7009, 0.2761]
+                iiwa_tcp_angle = [0.0, -0.0, 3.14]
+                iiwa_tcp_force = [5, 5, 5]
+                iiwa_tcp_position[TCP_AXIS] = iiwa_tcp_position[TCP_AXIS] + 0.001 * self.knob_current_pos
+                if not self.robot_controller.sendMoveCartesianLinImpedence(iiwa_tcp_position, iiwa_tcp_angle, iiwa_tcp_force):
+                    rospy.logwarn("Failed to send move position to robot: ...")
             else:
                 rospy.logerr("Unknown mode: {}".format(CONTROL_MODE))
                 return
@@ -124,16 +126,14 @@ class KnobGui(Ui_MainWindow):
             rospy.loginfo("knob current pos: {}".format(self.knob_current_pos))
     
     
-
-
-    
 if __name__ == "__main__":
     try:
-        KnobGui()
+        KnobGUI = KnobGui()
         app = QtWidgets.QApplication(sys.argv)
         MainWindow = QtWidgets.QMainWindow()
-        ui = Ui_MainWindow()
-        ui.setupUi(MainWindow)
+        # ui = Ui_MainWindow()
+        # ui.setupUi(MainWindow)
+        KnobGUI.setupUi(MainWindow)
         MainWindow.show()
     except rospy.ROSInterruptException:
         pass

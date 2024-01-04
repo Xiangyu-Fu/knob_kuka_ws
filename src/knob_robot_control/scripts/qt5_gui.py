@@ -190,9 +190,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget2)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.radioButton = QtWidgets.QRadioButton(self.widget2)
-        self.radioButton.setObjectName("radioButton")
-        self.verticalLayout_4.addWidget(self.radioButton)
+
+        self.radioButton_1 = QtWidgets.QRadioButton(self.widget2)
+        self.radioButton_1.setObjectName("radioButton_1")
+
+        self.verticalLayout_4.addWidget(self.radioButton_1)
         self.radioButton_2 = QtWidgets.QRadioButton(self.widget2)
         self.radioButton_2.setObjectName("radioButton_2")
         self.verticalLayout_4.addWidget(self.radioButton_2)
@@ -282,7 +284,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
     def retranslateUi(self, MainWindow) -> None:
         """
         This function is responsible for setting up the user interface of the MainWindow.
@@ -328,7 +329,7 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Text"))
 
         # Mode selection
-        self.radioButton.setText(_translate("MainWindow", " JOINT"))
+        self.radioButton_1.setText(_translate("MainWindow", " JOINT"))
         self.radioButton_2.setText(_translate("MainWindow", " TCP"))
         self.radioButton_2.setChecked(True)
 
@@ -385,7 +386,7 @@ class Ui_MainWindow(object):
 
     def check_current_selections(self) -> tuple:
         # Checking Mode
-        if self.radioButton.isChecked():
+        if self.radioButton_1.isChecked():
             mode = "JOINT"
         elif self.radioButton_2.isChecked():
             mode = "TCP"

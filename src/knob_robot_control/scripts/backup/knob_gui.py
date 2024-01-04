@@ -51,37 +51,37 @@ class KnobCommandInterface(QWidget):
 
         # Create widgets for each KnobCommand parameter
         self.num_positions_spinbox = QDoubleSpinBox()
-        self.num_positions_spinbox.setRange(0, 100)  # Example range, adjust as needed
+        self.num_positions_spinbox.setRange(0, 100)  
         self.num_positions_spinbox.setValue(11)
         layout.addWidget(QLabel("Num Positions"))
         layout.addWidget(self.num_positions_spinbox)
 
         self.position_spinbox = QDoubleSpinBox()
-        self.position_spinbox.setRange(0, 100)  # Example range, adjust as needed
+        self.position_spinbox.setRange(0, 100)  
         self.position_spinbox.setValue(0)
         layout.addWidget(QLabel("Position"))
         layout.addWidget(self.position_spinbox)
 
         self.position_width_radians_spinbox = QDoubleSpinBox()
-        self.position_width_radians_spinbox.setRange(0, 100)  # Example range, adjust as needed
+        self.position_width_radians_spinbox.setRange(0, 100)  
         self.position_width_radians_spinbox.setValue(10 * math.pi / 180)
         layout.addWidget(QLabel("Position Width Radians"))
         layout.addWidget(self.position_width_radians_spinbox)
 
         self.detent_strength_unit_spinbox = QDoubleSpinBox()
-        self.detent_strength_unit_spinbox.setRange(0, 100)  # Example range, adjust as needed
+        self.detent_strength_unit_spinbox.setRange(0, 100)  
         self.detent_strength_unit_spinbox.setValue(0)
         layout.addWidget(QLabel("Detent Strength Unit"))
         layout.addWidget(self.detent_strength_unit_spinbox)
 
         self.endstop_strength_unit_spinbox = QDoubleSpinBox()
-        self.endstop_strength_unit_spinbox.setRange(0, 100)  # Example range, adjust as needed
+        self.endstop_strength_unit_spinbox.setRange(0, 100)  
         self.endstop_strength_unit_spinbox.setValue(1)
         layout.addWidget(QLabel("Endstop Strength Unit"))
         layout.addWidget(self.endstop_strength_unit_spinbox)
 
         self.snap_point_spinbox = QDoubleSpinBox()
-        self.snap_point_spinbox.setRange(0, 100)  # Example range, adjust as needed
+        self.snap_point_spinbox.setRange(0, 100)  
         self.snap_point_spinbox.setValue(1.1)
         layout.addWidget(QLabel("Snap Point"))
         layout.addWidget(self.snap_point_spinbox)
@@ -91,26 +91,21 @@ class KnobCommandInterface(QWidget):
         layout.addWidget(QLabel("Text"))
         layout.addWidget(self.text_line_edit)
 
-
-        # Create a publish button and connect it to the publish function
         publish_button = QPushButton("Publish")
         publish_button.clicked.connect(self.publish_knob_command)
         layout.addWidget(publish_button)
 
         # std_msgs/Float32 tcp_force
         self.tcp_force_spinbox = QDoubleSpinBox()
-        self.tcp_force_spinbox.setRange(0, 3)  # Example range, adjust as needed
+        self.tcp_force_spinbox.setRange(0, 3)  
         self.tcp_force_spinbox.setValue(0)  
         layout.addWidget(QLabel("TCP Force"))
         layout.addWidget(self.tcp_force_spinbox)
 
-        # Create a publish button and connect it to the publish function
         publish_button = QPushButton("Publish Force")
         publish_button.clicked.connect(self.publish_force)
         layout.addWidget(publish_button)
 
-
-        # Create a publish button and connect it to the publish function
         publish_button = QPushButton("Force Tesing")
         publish_button.clicked.connect(self.force_testing)
         layout.addWidget(publish_button)
@@ -126,9 +121,12 @@ class KnobCommandInterface(QWidget):
             knob_command.tcp_force.data = math.sin(rospy.Time.now().to_sec()) + 1.5
             self.knob_command_pub.publish(knob_command)
             rospy.sleep(0.01)
-
-
+            
     def publish_force(self):
+        """
+        Only publish the force mode to the knob, this used to fine tune the force mode.
+        the text.data should be "force", and the value should be a factor of 1.0.
+        """
         knob_command = KnobCommand()
         knob_command.text.data = "force"
         knob_command.tcp_force.data = float(self.tcp_force_spinbox.value())

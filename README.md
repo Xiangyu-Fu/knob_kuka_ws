@@ -60,3 +60,9 @@ roslaunch iiwa_driver start.launch
 rosrun knob_robot_control robot_controller.py
 ```
 
+## UPDATE in Jan.04.2024
+
+```bash
+roslaunch iiwa_driver start.launch
+roslaunch knob_robot_control knob_controller.launch
+```
