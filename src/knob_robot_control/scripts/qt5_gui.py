@@ -26,13 +26,11 @@ class Ui_MainWindow(object):
         self.tcp_wrench = None
 
     def setup_ROS(self):
-        # define the subscibers
-        rospy.init_node("knob_gui", anonymous=True)
-
         self.knob_state_sub = rospy.Subscriber("/knob_state", KnobState, self.knob_state_callback)
         self.tcp_wrench_sub = rospy.Subscriber("/tcp_wrench", WrenchStamped, self.tcp_wrench_callback)
         self.joint_state_sub = rospy.Subscriber("/joint_states", JointState, self.joint_state_callback)
         self.tcp_state_sub = rospy.Subscriber("/tool_frame", EulerFrame, self.tcp_state_callback) 
+
         self.knob_command_pub = rospy.Publisher("/knob_command", KnobCommand, queue_size=10)
 
     def setupUi(self, MainWindow):
