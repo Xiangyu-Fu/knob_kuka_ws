@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="knob_robot_control" type="knob_ony_way_position_controller.py" name="knob_ony_way_position_controller" output="screen"/>
+</launch>
