@@ -20,18 +20,16 @@ class RobotController:
 
     def __init__(self):
         rospy.init_node('robot_controller', anonymous=True)
+
+        self.publish_rate = rospy.Rate(50)
         
         # # Publishers and Subscribers
-        # self.pub = rospy.Publisher('/command_list', CommandList, queue_size=10)
-        # self.iiwaDriverCommandList = rospy.Publisher('YOUR_TOPIC_NAME_HERE', CommandList, queue_size=10) # Replace with the correct topic name
-        # rospy.Subscriber("/command_result", Result, self.command_result_callback)
-
         self.iiwa_driver_command_list = rospy.Publisher("/command_list", CommandList, queue_size=2)
         #self.iiwa_driver_command_result = rospy.Subscriber("/command_result", Result, self.command_result_callback)
         #self.iiwa_driver_joint_states = rospy.Subscriber("/joint_states", JointState, self.joint_states_callback)
 
-        self.robot_tcp_state_subscriber = rospy.Subscriber("/tool_frame", EulerFrame, self.tool_frame_subscribe_callback)
-        self.robot_tcp_state_subscriber = rospy.Subscriber("/tcp_wrench", WrenchStamped, self.tcp_wrench_subscribe_callback)
+        #self.robot_tcp_state_subscriber = rospy.Subscriber("/tool_frame", EulerFrame, self.tool_frame_subscribe_callback)
+        #self.robot_tcp_wrench_subscriber = rospy.Subscriber("/tcp_wrench", WrenchStamped, self.tcp_wrench_subscribe_callback)
 
         self.knob_state_subscriber = rospy.Subscriber("/knob_state", KnobState, self.knob_state_callback)
 
@@ -40,12 +38,12 @@ class RobotController:
         self.mStatus = Status()
         self.mStatusMutex = Lock()
 
-        self.robot_tcp_position_current = [0, 0, 0]
-        self.robot_tcp_orientation_current = [0, 0, 0]
+        self.robot_tcp_position_current = [-0.0000, 0.5000, 0.50000]
+        self.robot_tcp_orientation_current = [0.0, -0.0, 3.14]
         self.robot_tcp_force_current = [0, 0, 0]
 
-        self.robot_tcp_position_target = [0, 0, 0]
-        self.robot_tcp_orientation_target = [0, 0, 0]
+        self.robot_tcp_position_target = [-0.0000, 0.5000, 0.50000]
+        self.robot_tcp_orientation_target = [0.0, -0.0, 3.14]
         self.robot_tcp_force_threshold = [5, 5, 5]
 
         self.knob_force = 0
@@ -56,18 +54,41 @@ class RobotController:
         self.force_factor = 1
         self.velocity_factor = 1
 
+        joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
+
         self.ROBOT_STATE_INITIALIZED = False
+        self.CHANGE_FLAG = False
+        self.POSITION_CHANGED = False
 
     def knob_state_callback(self, data):
-        self.knob_position_delta = data.position.data - self.knob_position
+        #self.knob_position_delta = data.position.data - self.knob_position
+        #self.knob_position= data.position.data
+
+        # if self.knob_position_delta != 0 & self.CHANGE_FLAG == False:
+        #     self.CHANGE_FLAG = True
+        #     print('knob position delta:',  self.knob_position_delta)
+        #     print('robot_tcp_position_current:',  self.robot_tcp_position_current)
+        #     self.position_change = self.position_factor * self.knob_position_delta
+        #     print("Posiiton change,", self.position_change)
+        #     self.robot_tcp_position_current[0] = self.robot_tcp_position_current[0] + self.position_change
+        #self.POSITION_CHANGED = True
+
         self.knob_position = data.position.data
         self.knob_force = data.force.data
+
+        self.position_change = self.position_factor * self.knob_position
+        self.robot_tcp_position_target[0] = self.position_change
+        print("Posiiton change,", self.position_change)
+
+        t = rospy.get_rostime()
+        print("rostime received knob change", float(t.to_sec()))
 
         #print("self.knob_position_delta, self.knob_position, self.knob_force", self.knob_position_delta, self.knob_position, self.knob_force)
 
     def tool_frame_subscribe_callback(self, data) -> None:
-        self.robot_tcp_position_current = [data.x+0.004, data.y - 0.005, data.z-0.03]
-        self.robot_tcp_orientation_current = [data.alpha, data.beta, data.gamma]
+        # self.robot_tcp_position_current = [data.x+0.004, data.y - 0.005, data.z-0.03]
+        self.robot_tcp_position_current = [round(data.x, 3), round(data.y - 0.005,3), round(data.z,3)] 
+        self.robot_tcp_orientation_current = [round(data.alpha, 3), round(data.beta,3), round(data.gamma,3)]
 
         #print('self.robot_tcp_position_current, self.robot_tcp_orientation_current', self.robot_tcp_position_current, self.robot_tcp_orientation_current)
 
@@ -138,13 +159,21 @@ class RobotController:
         command = Command()
         command.command_id = self.currentCommandId + 1
         self.currentCommandId = command.command_id
-        command.command_type = "LINIMPEDENCE"
+        command.command_type = "LIN"
         command.pose_type = "EULER_INTRINSIC_ZYX"
 
-        command.pose.extend([float(val) for val in position])
-        command.pose.extend([float(val) for val in angles])
+        command.pose.append(float(position[0]))
+        command.pose.append(float(position[1]))
+        command.pose.append(float(position[2]))
+        command.pose.append(float(angles[0]))
+        command.pose.append(float(angles[1]))
+        command.pose.append(float(angles[2]))
+
+        #command.pose.extend([float(val) for val in position])
+        #command.pose.extend([float(val) for val in angles])
         command.velocity.append(float(0.1))
         command.blending = [0, 0.0001]
+        command.force_threshold = [5, 5, 5]
 
         commandList = CommandList()
         commandList.commands.append(command)
@@ -238,9 +267,9 @@ class RobotController:
         :param force: List of 3 floats representing the force threshold of the end effector.
         :return: True if the command was sent successfully, False otherwise.
         """
-        speed_data = None
-        if not self.getSpeed(speed_data):
-            return False
+        #speed_data = None
+        #if not self.getSpeed(speed_data):
+        #    return False
 
         speed_data = self.HARDCODE_SPEED_CART * self.SPEED_FACTOR
 
@@ -262,66 +291,37 @@ class RobotController:
         commandList.commands.append(command)
         commandList.replace_previous_commands = True
 
-        rospy.loginfo("Sending move position (impedence) to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
+        # rospy.loginfo("Sending move position (impedence) to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
 
         self.iiwa_driver_command_list.publish(commandList)
+
+        if self.POSITION_CHANGED:
+            self.POSITION_CHANGED = False
+            t = rospy.get_rostime()
+            print("commanded published at time", float(t.to_sec()))
 
         return True
 
     def run(self) -> None:
-        feq = 100
-        rate = rospy.Rate(feq) # 10hz
         
-        # Sample data for testing
-        # position_target = [-0.08374, 0.5547, 0.05418]
-        # position_home = [-0.08374, 0.4547, 0.25418]
-        # angles = [0.0, -0.0, 3.14]
-        # joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
-        # force = [5, 5, 5]
-        
-        #while not rospy.is_shutdown():
-            # if count == 2:
-            #     self.sendMoveCartesianLinForce(position, angles, force)
-            # Test sendMoveCartesianLin
-            # self.sendMoveCartesianLin(position, angles)
-            # if count%20 == 0:
-            #     position_new = position
-            #     count = 0
-            # position_new[2] = position_new[2] + 0.002
-            # self.sendMoveCartesianLinImpedence(position_new, angles, force)
-            # count += 1
-
-            # Test sendMoveCartesianLinForce
-            # self.sendMoveCartesianLinForce(position, angles, force)
-            # if count%10 == 0:
-            #     position_new = [-0.08374, 0.5547, 0.23418]
-            # position_new[2] = position_new[2] - 0.09
-
-            #self.sendMoveCartesianLinImpedence(position_target, angles, force)
-            # count += 1
-            # rate.sleep()
-
-            #rospy.sleep(10)
-            #self.sendMoveCartesianLinImpedence(position_home, angles, force)
-            #rospy.sleep(10)
-        
-        #rospy.spin()
-
+        old_t = rospy.get_rostime()
         while not rospy.is_shutdown():
-            if self.knob_position_delta != 0 and self.ROBOT_STATE_INITIALIZED:
-                print('knob position delta:',  self.knob_position_delta)
-                print('robot_tcp_position_current:',  self.robot_tcp_position_current)
-                position_change = self.position_factor * self.knob_position_delta
-                print("Posiiton change,", position_change)
-                self.robot_tcp_position_target[0] = self.robot_tcp_position_current[0] + position_change
-                self.robot_tcp_position_target[1] = self.robot_tcp_position_current[1]
-                self.robot_tcp_position_target[2] = self.robot_tcp_position_current[2]
-                print('robot_tcp_position_target:',  self.robot_tcp_position_target)
-                
-                #self.sendMoveCartesianLin(self.robot_tcp_position_current, self.robot_tcp_orientation_current)
-                self.sendMoveCartesianLinImpedence(self.robot_tcp_position_current, self.robot_tcp_orientation_current, self.robot_tcp_force_threshold)
+            #if self.ROBOT_STATE_INITIALIZED:
+                # if self.CHANGE_FLAG == True:
+                #     self.robot_tcp_position_target[0] = self.robot_tcp_position_current[0] + self.position_change
+                #     self.robot_tcp_position_target[1] = self.robot_tcp_position_current[1]
+                #     self.robot_tcp_position_target[2] = self.robot_tcp_position_current[2]
+                #     print('robot_tcp_position_target:',  self.robot_tcp_position_target)
+                #     self.CHANGE_FLAG = False
+                #     self.sendMoveCartesianLin(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
+                #     self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
+            
+            self.sendMoveCartesianLin(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
+            #self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
+            self.publish_rate.sleep()
 
 if __name__ == '__main__':
+
     controller = RobotController()
     controller.run()
 
