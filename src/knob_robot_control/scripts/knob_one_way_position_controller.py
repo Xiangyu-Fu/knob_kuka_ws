@@ -24,7 +24,7 @@ class RobotController:
         self.publish_rate = rospy.Rate(50)
         
         # # Publishers and Subscribers
-        self.iiwa_driver_command_list = rospy.Publisher("/command_list", CommandList, queue_size=2)
+        self.iiwa_driver_command_list = rospy.Publisher("/command_list", CommandList, queue_size=1)
         #self.iiwa_driver_command_result = rospy.Subscriber("/command_result", Result, self.command_result_callback)
         #self.iiwa_driver_joint_states = rospy.Subscriber("/joint_states", JointState, self.joint_states_callback)
 
@@ -316,8 +316,8 @@ class RobotController:
                 #     self.sendMoveCartesianLin(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
                 #     self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
             
-            self.sendMoveCartesianLin(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
-            #self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
+            #self.sendMoveCartesianLin(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
+            self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
             self.publish_rate.sleep()
 
 if __name__ == '__main__':

@@ -11,6 +11,7 @@ from std_msgs.msg import String, Int32, Float32
 from knob_robot_control.msg import KnobState
 from device_msgs.msg import Status
 from threading import Lock
+import math
 
 
 class RobotController:
@@ -37,6 +38,7 @@ class RobotController:
     def joint_states_callback(self, data) -> None:
         # rospy.loginfo("Joint states received: ...")  
         pass
+
         
     def send_command_to_robot(self, commands, replace_previous=True) -> None:
         """
@@ -240,8 +242,6 @@ class RobotController:
         force = [5, 5, 5]
 
         count = 0
-
-        rospy.sleep(3)
         
         while not rospy.is_shutdown():
             # if count == 2:
@@ -261,13 +261,16 @@ class RobotController:
             #     position_new = [-0.08374, 0.5547, 0.23418]
             # position_new[2] = position_new[2] - 0.09
 
+            # add a sin wave to the position
+            position_target[2] = position_target[2] + 0.005*math.sin(count/10)
             self.sendMoveCartesianLinImpedence(position_target, angles, force)
+            count += 1
+
+
+            # self.sendMoveCartesianLinImpedence(position_target, angles, force)
             # count += 1
             # rate.sleep()
-
-            rospy.sleep(10)
-            self.sendMoveCartesianLinImpedence(position_home, angles, force)
-            rospy.sleep(10)
+            rate.sleep()
         
         # rospy.spin()
 
