@@ -15,8 +15,6 @@ from threading import Lock
 
 
 class RobotController:
-    SPEED_FACTOR = 0.1  # Replace with appropriate value if needed
-    HARDCODE_SPEED_CART = 1.0  # Replace with appropriate value if needed
 
     def __init__(self):
         rospy.init_node('robot_controller', anonymous=True)
@@ -28,7 +26,7 @@ class RobotController:
         #self.iiwa_driver_command_result = rospy.Subscriber("/command_result", Result, self.command_result_callback)
         #self.iiwa_driver_joint_states = rospy.Subscriber("/joint_states", JointState, self.joint_states_callback)
 
-        #self.robot_tcp_state_subscriber = rospy.Subscriber("/tool_frame", EulerFrame, self.tool_frame_subscribe_callback)
+        self.robot_tcp_state_subscriber = rospy.Subscriber("/tool_frame", EulerFrame, self.tool_frame_subscribe_callback)
         #self.robot_tcp_wrench_subscriber = rospy.Subscriber("/tcp_wrench", WrenchStamped, self.tcp_wrench_subscribe_callback)
 
         self.knob_state_subscriber = rospy.Subscriber("/knob_state", KnobState, self.knob_state_callback)
@@ -42,7 +40,7 @@ class RobotController:
         self.robot_tcp_orientation_current = [0.0, -0.0, 3.14]
         self.robot_tcp_force_current = [0, 0, 0]
 
-        self.robot_tcp_position_target = [-0.0000, 0.5000, 0.50000]
+        self.robot_tcp_position_target = [-0.0000, 0.5000, 0.55000]
         self.robot_tcp_orientation_target = [0.0, -0.0, 3.14]
         self.robot_tcp_force_threshold = [5, 5, 5]
 
@@ -50,15 +48,22 @@ class RobotController:
         self.knob_position = 0
         self.knob_position_delta = 0
 
-        self.position_factor = 0.01
+        self.position_factor = 0.002
         self.force_factor = 1
         self.velocity_factor = 1
+
+        self.velocity = 0.001
+
+        self.VELOCITY_THRESHOLD = 0.03
 
         joints = [1.5710205516437281, 0.26206090357094514, -2.6964464278686393e-05, -1.2529596421209066, 7.200128936299848e-05, 1.6281237054938813, -1.570994186372798]
 
         self.ROBOT_STATE_INITIALIZED = False
         self.CHANGE_FLAG = False
         self.POSITION_CHANGED = False
+
+        rospy.set_param("/speed_factor", 0.001)
+        self.SPEED_FACTOR = rospy.get_param("/speed_factor")
 
     def knob_state_callback(self, data):
         #self.knob_position_delta = data.position.data - self.knob_position
@@ -77,11 +82,7 @@ class RobotController:
         self.knob_force = data.force.data
 
         self.position_change = self.position_factor * self.knob_position
-        self.robot_tcp_position_target[0] = self.position_change
-        print("Posiiton change,", self.position_change)
-
-        t = rospy.get_rostime()
-        print("rostime received knob change", float(t.to_sec()))
+        self.robot_tcp_position_target[1] = 0.5 + self.position_change
 
         #print("self.knob_position_delta, self.knob_position, self.knob_force", self.knob_position_delta, self.knob_position, self.knob_force)
 
@@ -119,12 +120,6 @@ class RobotController:
         """
         # Handle the feedback. For now, just print it.
         print(f"Command ID: {data.command_id}, Result Code: {data.result_code}, Additional Info: {data.additional_information}")
-
-    def getSpeed(self, speed_data):
-        # Implement the method to retrieve speed data
-        # For now, I am assuming it always returns True with a dummy speed
-        speed_data = 0.1
-        return True
     
     def getStatus(self, data):
             with self.mStatusMutex:
@@ -180,7 +175,7 @@ class RobotController:
         commandList.replace_previous_commands = True
 
         self.iiwa_driver_command_list.publish(commandList)
-        print("Sending impedence move position to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
+        print("Sending smart move position to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], speed_data))
 
         return True
 
@@ -200,7 +195,7 @@ class RobotController:
 
         command = Command()
         command.command_id = self.currentCommandId + 1
-        command.command_type = "LINFORCE"
+        command.command_type = "SMART"
         command.pose_type = "EULER_INTRINSIC_ZYX"
 
         command.pose.append(float(position[0]))
@@ -302,6 +297,51 @@ class RobotController:
 
         return True
 
+    def sendMoveLinSmart(self, position, angles) -> bool:
+        """
+
+        :param position: List of 3 floats representing the position of the end effector.
+        :param angles: List of 3 floats representing the orientation of the end effector.
+        :param force: A float representing the force threshold of the end effector.
+        :return: True if the command was sent successfully, False otherwise.
+        """
+
+        command = Command()
+        command.command_id = self.currentCommandId + 1
+        command.command_type = "SMART"
+        command.pose_type = "EULER_INTRINSIC_ZYX"
+
+        command.pose.append(float(position[0]))
+        command.pose.append(float(position[1]))
+        command.pose.append(float(position[2]))
+        command.pose.append(float(angles[0]))
+        command.pose.append(float(angles[1]))
+        command.pose.append(float(angles[2]))
+        command.velocity.append(self.velocity)
+
+        commandList = CommandList()
+        commandList.commands.append(command)
+        commandList.replace_previous_commands = True
+
+        rospy.loginfo("Sending smart move position to robot: {}, {}, {}, with speed {}".format(position[0], position[1], position[2], self.velocity))
+
+        self.iiwa_driver_command_list.publish(commandList)
+
+        # if self.POSITION_CHANGED:
+        #     self.POSITION_CHANGED = False
+        #     t = rospy.get_rostime()
+        #     print("commanded published at time", float(t.to_sec()))
+
+        return True
+
+    def velocity_calculator(self):
+        error = self.robot_tcp_position_target[1] - self.robot_tcp_position_current[1]
+        self.SPEED_FACTOR = rospy.get_param("/speed_factor")
+        self.velocity = error * self.SPEED_FACTOR + 0.01
+
+        if self.velocity > self.VELOCITY_THRESHOLD:
+            self.velocity = self.VELOCITY_THRESHOLD
+
     def run(self) -> None:
         
         old_t = rospy.get_rostime()
@@ -317,7 +357,9 @@ class RobotController:
                 #     self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
             
             #self.sendMoveCartesianLin(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
-            self.sendMoveCartesianLinImpedence(self.robot_tcp_position_target, self.robot_tcp_orientation_target, self.robot_tcp_force_threshold)
+            self.velocity_calculator()
+
+            self.sendMoveLinSmart(self.robot_tcp_position_target, self.robot_tcp_orientation_target)
             self.publish_rate.sleep()
 
 if __name__ == '__main__':
